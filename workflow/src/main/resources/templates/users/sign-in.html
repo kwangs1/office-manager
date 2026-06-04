@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/users/sign-in.css}" />
+<title th:text="#{login.txt}"></title>
+<th:block th:replace="~{common/header :: headerFragment}"></th:block>
+</head>
+<body>
+<form action="/login-proc" method="POST">
+<div class="login-container">
+    <h2>Workflow Office</h2>
+    
+    <div class="input-group">
+        <input type="text" id="empNo" name="empNo" th:placeholder="#{label.empNo.placeholder}" autocomplete="username" required>
+    </div>
+    
+    <div class="input-group">
+        <input type="password" id="password" name="password" th:placeholder="#{label.pswd.placeholder}" autocomplete="current-password" required>
+    </div>
+    
+    <button type="submit" class="btn-login" th:text="#{login.txt}"></button>
+    
+    <div class="login-footer">
+		<div class="footer-links">
+	        <a href="javascript:void(0);" onclick="openPasswordResetModal()">[[#{pswd.reset}]]</a>
+	        <span class="divider">|</span>
+	        <span>[[#{noAccount.msg}]]</span>
+	        <a href="/users/sign-up" th:text="#{signup.txt}"></a>
+	    </div>
+    </div>
+
+</div>
+</form>
+
+<div id="commonModal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+        <p>[[#{empNo.required}]]</p>
+        
+        <input type="text" id="modalEmpNo" autofocus="autofocus"
+               style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;">
+        
+        <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn-login" onclick="executePasswordReset()" style="flex: 1;">[[#{reset.btn}]]</button>
+            <button type="button" class="btn-login" onclick="closeModal()" style="flex: 1; background-color: #6c757d;">[[#{cancel.btn}]]</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script th:src="@{/js/common/api.js}"></script>
+<script>
+async function executePasswordReset() {
+    const empNo = $('#modalEmpNo').val();
+
+	const url = `/api/users/${empNo}/password-reset`;
+	
+	const res = await callApi(url, 'POST', {empNo :empNo});
+	if (res) {
+		alert(res.data);
+		closeModal();
+	}
+}
+function openPasswordResetModal() {
+	$('#modalEmpNo').val(''); 
+    $('#commonModal').fadeIn(200, function() {
+        $('#modalEmpNo').focus(); 
+    });
+}
+function closeModal() {
+    $('#commonModal').fadeOut(200);
+}
+</script>
+</body>
+</html>

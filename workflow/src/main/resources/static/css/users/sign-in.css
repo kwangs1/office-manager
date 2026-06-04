@@ -1,0 +1,125 @@
+@charset "UTF-8";
+/* 기본 배경 및 폰트 설정 */
+body {
+	background-color: #f4f7f9;
+	font-family: 'Pretendard', -apple-system, sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+}
+
+/* 로그인 박스 컨테이너 */
+.login-container {
+	background: #ffffff;
+	padding: 40px;
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+	width: 100%;
+	max-width: 360px;
+	text-align: center;
+}
+
+/* 로고나 타이틀 */
+.login-container h2 {
+	color: #333;
+	margin-bottom: 30px;
+	font-weight: 700;
+	letter-spacing: -1px;
+}
+
+/* 입력창 그룹 */
+.input-group {
+	margin-bottom: 15px;
+	text-align: left;
+}
+
+input[type="text"], input[type="password"] {
+	width: 100%;
+	padding: 14px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-sizing: border-box;
+	font-size: 15px;
+	transition: all 0.3s;
+}
+
+input:focus {
+	border-color: #007bff;
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* 로그인 버튼 */
+.btn-login {
+	width: 100%;
+	padding: 14px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	margin-top: 10px;
+	transition: background 0.3s;
+}
+
+.btn-login:hover {
+	background-color: #0056b3;
+}
+
+/* 하단 보조 링크 (회원가입 등) */
+.login-footer {
+	margin-top: 20px;
+	font-size: 14px;
+	color: #666;
+}
+
+.login-footer a {
+	color: #007bff;
+	text-decoration: none;
+	margin-left: 5px;
+}
+
+.login-footer a:hover {
+	text-decoration: underline;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; 
+}
+
+.divider {
+    color: #ccc;
+    font-size: 12px;
+}
+/* 모달 배경 */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* 모달 본체 */
+.modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 { margin-top: 0; color: #333; }
+.modal-content p { color: #666; margin: 20px 0; font-size: 15px; }

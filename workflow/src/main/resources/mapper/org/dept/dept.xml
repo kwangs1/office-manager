@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.workflow.office.org.dept.mapper.DeptMapper">
+
+    <select id="selectDepartmentList" resultType="com.workflow.office.org.dept.domain.Department">
+        SELECT 
+            id, name, pid, depth, sort_or
+        FROM tb_dept
+        ORDER BY depth, sort_or
+    </select>
+    
+    <insert id="register" parameterType="com.workflow.office.org.dept.domain.Department">
+        INSERT INTO tb_dept (
+            name,
+            pid,
+            depth,
+            update_dt,
+            sort_or
+        ) VALUES (
+            #{name},
+            #{pid},
+            #{depth},
+            #{updateAt},
+            #{sortOr} )
+    </insert>
+    
+    <select id="getNextSortOrder" resultType="int">
+        SELECT COALESCE(MAX(sort_or), 0) + 1
+        FROM tb_dept
+        <where>
+            <choose>
+                <when test="pid == null or pid == 0">
+                    AND pid IS NULL
+                </when>
+                <otherwise>
+                    AND pid = #{pid}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+    
+    <update id="update" parameterType="com.workflow.office.org.dept.domain.Department">
+        UPDATE tb_dept
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="sortOr != null">sort_or = #{sortOr},</if> <if test="status != null">status = #{status},</if>   update_dt = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+    
+    <select id="findById" resultType="com.workflow.office.org.dept.domain.Department">
+        SELECT *
+        FROM tb_dept
+        WHERE id = #{id}
+    </select>
+    
+    <update id="delete" parameterType="int">
+        UPDATE tb_dept
+        SET status = '4', 
+            pid = 48, 
+            update_dt = NOW()
+        WHERE id = #{id}
+    </update>
+
+</mapper>

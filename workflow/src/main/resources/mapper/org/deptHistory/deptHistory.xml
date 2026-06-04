@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.workflow.office.org.deptHistory.mapper.DeptHistoryMapper">
+	
+	<insert id="insertHistory" parameterType="com.workflow.office.org.deptHistory.domain.DeptHistory">
+		INSERT INTO tb_dept_history(
+			dept_id,
+			old_name,
+			new_name,
+			update_reason
+		)VALUES(
+			#{deptId},
+			#{oldName},
+			#{newName},
+			#{updateReason}
+		)
+	</insert>
+	
+	<select id="getDeptHistories" resultType="com.workflow.office.org.deptHistory.domain.DeptHistory">
+		SELECT 
+			*
+		FROM tb_dept_history 
+		WHERE dept_id = #{deptId} 
+		order by update_dt
+	</select>
+</mapper>

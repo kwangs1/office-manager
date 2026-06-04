@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<title>[[#{org.tree.popup}]]</title>
+</head>
+<body>
+    <div class="tree-box">
+        <div id="jstree_demo_div"></div>
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script th:src="@{/js/common/api.js}"></script>
+<script th:src="@{/js/common/org/dept-tree.js}"></script>
+<script>
+$(function(){
+	DeptTree.init('#jstree_demo_div', function(nodeId){
+		const selectedNode = $('#jstree_demo_div').jstree(true).get_node(nodeId);
+		const deptId = selectedNode.id;
+		const deptName = selectedNode.text;
+		
+		if (window.opener && !window.opener.closed){
+			if (typeof window.opener.fnSetDept === 'function'){
+				window.opener.fnSetDept(deptId, deptName);
+			}
+			window.close();
+		}
+	});
+});
+</script>
+</body>
+</html>

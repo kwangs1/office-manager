@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.workflow.office.user.mapper.UserMapper">
+<resultMap id="userMap" type="com.workflow.office.user.domain.User">
+    <id property="id" column="id" />
+    <result property="empNo" column="emp_no" />
+    <result property="name" column="name" />
+    <result property="password" column="password" />
+    <result property="email" column="email" />
+    <result property="deptId" column="dept_id" />
+    <result property="posId" column="pos_id" />
+    <result property="noti_f" column="noti_f" />
+    <result property="pwUpdateAt" column="pw_update_dt" />
+    <result property="createdAt" column="created_dt" />
+
+
+    <collection property="authList" ofType="com.workflow.office.user.domain.UserAuth">
+        <id property="id" column="auth_id" />
+        <id property="userId" column="user_id" />
+        <result property="authName" column="auth_name" />
+        <result property="grantedAt" column="granted_dt" />
+        <result property="grantedBy" column="granted_by" />
+    </collection>
+</resultMap>
+	
+	<insert id="signup" parameterType="com.workflow.office.user.domain.User">
+		INSERT INTO tb_user(
+			name,
+			password,
+			email,
+			dept_id,
+			pos_id,
+			pw_update_dt,
+			update_dt
+		)VALUES (
+			#{name},
+			#{password},
+			#{email},
+			#{deptId},
+			#{posId},
+			#{pwUpdateAt},
+			#{updateAt}
+		)
+	</insert>
+
+	<select id="countByEmail" parameterType="String" resultType="int">
+		SELECT COUNT (*) FROM tb_user WHERE email = #{email}
+	</select>
+	
+	<select id="findWithRolesByEmpNo" resultMap="userMap">
+		SELECT 
+			u.id, u.emp_no, u.password, u.name,
+			a.id AS auth_id, a.auth_name, a.granted_dt
+		FROM tb_user u
+		LEFT JOIN tb_user_auth a ON u.id = a.user_id
+		where u.emp_no = #{empNo}
+	</select>
+	
+	<select id="findByEmpNo" parameterType="String" resultType="com.workflow.office.user.domain.User">
+		SELECT 
+		    u.emp_no,
+		    u.name,
+		    u.email,
+		    d.name AS deptName,
+		    p.name AS posName
+		FROM tb_user u
+		INNER JOIN tb_dept d ON u.dept_id = d.id
+		INNER JOIN tb_position p ON u.pos_id = p.id
+		WHERE u.emp_no = #{empNo}
+	</select>
+	
+	<select id="findProfileByEmpNo" parameterType="String" resultType="com.workflow.office.user.dto.UserDTO$Response">
+		SELECT 
+		        u.id, u.emp_no AS empNo, u.name, u.email, u.dept_id AS deptId, u.pos_id AS posId,
+		        u.noti_f AS noti_f, d.name AS deptName, p.name AS posName
+		FROM tb_user u
+		INNER JOIN tb_dept d ON u.dept_id = d.id
+		INNER JOIN tb_position p ON u.pos_id = p.id
+		WHERE u.emp_no = #{empNo}
+	</select>
+	
+	<update id="updateProfile" parameterType="com.workflow.office.user.domain.User">
+		UPDATE tb_user
+		<set>
+			<if test="name != null">name = #{name},</if>
+			<if test="email != null">email = #{email},</if>
+			<if test="noti_f != null">noti_f = #{noti_f},</if>
+			update_dt = #{updateAt}
+		</set>
+		 where emp_no = #{empNo}
+	</update>
+	
+	<update id="updatePassword">
+		UPDATE tb_user set password = #{password} where emp_no = #{empNo}
+	</update>
+</mapper>
+

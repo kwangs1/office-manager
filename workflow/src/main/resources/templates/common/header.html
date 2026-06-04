@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerFragment">
+    <meta charset="UTF-8">
+    <script th:inline="javascript">
+        window._MSG = {
+            NETWORK_ERROR : [[#{common.network.error}]],
+            ID_REQUIRED : [[#{id.required}]],
+            SAVE_BTN : [[#{save.btn}]],
+            ADD_BTN : [[#{add.btn}]],
+            DELETE_BTN : [[#{delete.btn}]],
+            MODIFY_BTN : [[#{modify.btn}]],
+            CANCEL_BTN : [[#{cancel.btn}]],
+            ADD_TITLE : [[#{add.title}]],
+            MODIFY_TITLE : [[#{modify.title}]],
+        	REASON_REQUIRED : [[#{deptHistory.reason.required}]],
+        	DEL_CONFIRM : [[#{delete.confirm}]],
+        	LIST_LENGTH_EMPTY : [[#{list.length.empty}]],
+        	INVALID_PARAM : [[#{common.invalid.param}]],
+        	EMAIL_ISEMPTY : [[#{email.isEmpty}]],
+        	NAME_ISEMPTY : [[#{name.isEmpty}]],
+        	EMAIL_REGEX : [[#{email.Regex}]],
+        	CREATE_ACCOUNT_SUCCESS : [[#{msg.create.account.success}]],
+        	POS_SELECTED : [[#{label.pos.selected}]],
+        	EDIT_READONLY : [[#{msg.edit.readonly}]]
+        };
+    </script>
+</head>
+<body>
+</body>
+</html>

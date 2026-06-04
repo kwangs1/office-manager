@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/org/deptHistoryList.css}" />
+<title th:text="#{history.title}">[[#{revision.hisotry}]]</title>
+<th:block th:replace="~{common/header :: headerFragment}" />
+</head>
+<body>
+	<div class="history-header">
+        <h2 th:text="#{history.title}"></h2>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th th:text="#{history.oldName}"></th>
+                    <th th:text="#{history.newName}"></th>
+                    <th th:text="#{history.reason}"></th>
+                    <th class="date-col" th:text="#{history.updateAt}"></th>
+                </tr>
+            </thead>
+            <tbody id="dept-History-container"></tbody>
+        </table>
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script th:src="@{/js/common/api.js}"></script>
+<script th:src="@{/js/common/org/dept-history.js}"></script>
+<script>
+$(function(){
+	DeptHistory.init();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+@charset "UTF-8";
+    /* 1. 전체 컨테이너: 왼쪽 트리와 오른쪽 폼을 가로로 배치 */
+    .tree-container {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        min-height: 500px;
+    }
+
+    /* 2. 트리 영역: 고정 폭과 스크롤 설정 */
+    .tree-box {
+        flex: 0 0 300px; /* 가로 300px 고정 */
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        overflow-y: auto;
+    }
+
+    /* 3. 상세 정보 영역: 남은 공간 모두 차지 */
+    .detail-box {
+        flex: 1;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .detail-box h3 {
+        margin-top: 0;
+        border-bottom: 2px solid #337ab7;
+        padding-bottom: 10px;
+        color: #333;
+    }
+	.detail-header {
+	    display: flex;
+	    align-items: center; /* 세로 중앙 정렬 */
+	    justify-content: space-between; /* 양 끝 배치 (타이틀 왼쪽, 버튼 오른쪽) */
+	    border-bottom: 2px solid #337ab7;
+	    margin-bottom: 15px;
+	    padding-bottom: 5px;
+	}
+	
+	.detail-header h3 {
+	    margin: 0; /* 기존 h3 마진 제거 */
+	    border-bottom: none; /* 부모 div에서 선을 그으므로 제거 */
+	    padding-bottom: 0;
+	}
+	
+	.btn-history-small {
+	    background-color: #6c757d; /* 차분한 회색 계열 */
+	    color: white;
+	    border: none;
+	    padding: 4px 10px;
+	    border-radius: 4px;
+	    font-size: 12px;
+	    cursor: pointer;
+	    transition: background 0.3s;
+	}
+	
+	.btn-history-small:hover {
+	    background-color: #5a6268;
+	}
+    /* 4. 폼 스타일링 */
+    .dept-form-group {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .dept-form-group label {
+        width: 100px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .dept-form-group input {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+    }
+
+    .dept-form-group input[readonly] {
+        background-color: #eee;
+        cursor: not-allowed;
+    }
+
+    /* 5. 버튼 스타일 */
+    .btn-common{
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+        margin-left: 8px;
+    }
+    .btn-save{background-color: #337ab7;}
+	.btn-add{background-color: #5cb85c;}
+	.btn-del{background-color: #d9534f;}
+	
+    .btn-save:hover {background-color: #286090;}
+    .btn-add:hover {background-color: #449d44;}
+    .btn-del:hover {background-color: #c9302c;}

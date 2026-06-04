@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<link rel="stylesheet" th:href="@{/css/org/deptListPage.css}" />
+<link rel="stylesheet" th:href="@{/css/org/deptAddModal.css}" />
+<title th:text="#{label.dept.title}"></title>
+<th:block th:replace="~{common/header :: headerFragment}"></th:block>
+</head>
+<body>
+<div class="tree-container">
+    <div class="tree-box">
+        <div id="jstree_demo_div"></div>
+    </div>
+<!-- detail -->
+    <div class="detail-box">
+    	<div class="detail-header">
+        	<h3 th:text="#{detail.title}"></h3>
+        	<button type="button" id="btnHistoryView" class="btn-history-small">[[#{revision.hisotry}]]</button>
+    	</div>
+
+        <form id="deptForm">
+            <div class="dept-form-group">
+                <label th:text="#{label.dept.id}"></label>
+                <input type="text" id="view_id" readonly th:placeholder="#{msg.select.node}" />
+            </div>
+            <div class="dept-form-group">
+                <label th:text="#{label.dept.name}"></label>
+                <input type="text" id="view_name" />
+            </div>
+            <button type="button" class="btn-common btn-add" id="btnOpenAdd" th:text="#{add.btn}"></button>
+            <button type="button" class="btn-common btn-save" id="btnOpenUpd" th:text="#{modify.btn}"></button>
+            <button type="button" class="btn-common btn-del" id="btnDel" th:text="#{delete.btn}"></button>
+        
+			<input type="hidden" id="view_pid"/>
+        </form>
+    </div>
+</div>
+<!-- modal -->
+<div id="deptAddModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="modalTitle"></span>
+            <span class="close-btn">&times;</span>
+        </div>
+        <div class="modal-body">
+        	<input type="hidden" id="modalMode" value="">
+            <div class="form-group">
+                <label th:text="#{label.dept.parent}"></label>
+                <input type="text" id="pop_parent_name" readonly style="background:#eee;">
+                <input type="hidden" id="pop_pid">
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.dept.name}"></label>
+                <input type="text" id="pop_name" th:placeholder="#{label.dept.name.placeholder}">
+            </div>
+            <!-- 부서명이 변경될 때 감지해서 input 생성 -->
+			<div class="form-group" id="reason-area" style="display: none;">
+			    <label style="color: #dc3545;" th:text="#{label.deptHistory}"></label>
+			    <input type="text" id="updateReason" th:placeholder="#{label.deptHistory.placeholder}">
+			</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" th:text="#{cancel.btn}"></button>
+            <button class="btn-common btn-save" id="btnSave"></button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script th:src="@{/js/common/api.js}"></script>
+<script th:src="@{/js/common/common.js}"></script>
+<script th:src="@{/js/common/org/dept-tree.js}"></script>
+<script th:src="@{/js/common/org/dept-manager.js}"></script>
+<script>
+$(function(){
+	DeptManager.init();
+});
+</script>
+</body>
+</html>

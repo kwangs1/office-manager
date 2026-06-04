@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/org/PositionListModal.css}" />
+<title th:text="#{pos.list.title}"></title>
+<th:block th:replace="~{common/header :: headerFragment}"></th:block>
+</head>
+<body>
+<div class="btn-area">
+        <button id="openAddModal" class="btn btn-primary" th:text="#{add.btn}"></button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th th:text="#{label.pos.name}"></th>
+            <th th:text="#{label.pos.secLevel}"></th>
+        </tr>
+    </thead>
+    <tbody id="position-list-container"></tbody>
+</table>
+
+<div id="positionModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle"></h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="id">
+            <div class="form-group">
+                <label th:text="#{label.pos.name}"></label>
+                <input type="text" id="name" th:placeholder="#{label.pos.name}">
+            </div>
+            <div class="form-group">
+                <label th:text="#{label.pos.secLevel}"></label>
+                <input type="number" id="secLevel" placeholder="1~10">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="closeModal" th:text="#{cancel.btn}"></button>
+            <button class="btn btn-primary" id="savePosition" th:text="#{save.btn}"></button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script th:src="@{/js/common/api.js}"></script>
+<script th:src="@{/js/common/org/position-manager.js}"></script>
+<script>
+$(function() {
+    PositionManager.init(); 
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" th:href="@{/css/users/sign-up.css}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title th:text="#{signup.txt}"></title>
+<th:block th:replace="~{common/header :: headerFragment}"></th:block>
+</head>
+<body>
+	<div class="signup-container">
+        <h2 th:text="#{signup.txt}"></h2>
+        
+        <div class="form-group">
+            <div class="form-row">
+                <input type="text" id="deptName" th:placeholder="#{label.dept.selected}" readonly />
+                <input type="hidden" id="deptId" />
+                <button type="button" class="btn-sub" onclick="fnDeptTree()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="text" id="name" th:placeholder="#{label.name.placeholder}" />
+        </div>
+
+        <div class="form-group">
+            <input type="password" id="password" th:placeholder="#{label.pswd.placeholder}" />
+        </div>
+        
+        <div class="position-list-container"></div>
+        
+        <div class="form-group">
+            <input type="text" id="email" th:placeholder="#{label.email.placeholder}" />
+        </div>
+        
+        <button type="button" class="btn-main" onclick="fnSignUp()" th:text="#{signup.btn}"></button>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script th:src="@{/js/common/api.js}"></script>
+<script th:src="@{/js/common/common.js}"></script>
+<script>
+$(function(){
+	getPositionList();
+});
+
+function fnDeptTree(){
+	const url = '/org/depts/dept-tree-popup';
+	openPopupCenter(url, 'deptsTreePopUp', 500, 460);
+}
+function fnSetDept(id, name){
+	$('#deptName').val(name);
+	$('#deptId').val(id);
+}
+
+async function getPositionList() {
+	const res = await callApi('/api/org/positions', 'GET');
+	if (res){
+		const list = res.data;
+		let html = '<select id="posCode">';
+		html += `<option value="">${_MSG.POS_SELECTED}</option>`;
+		
+		html += list.map(item => `
+			<option value="${item.id}">${item.name}</option>
+		`).join('');
+		
+		html += '</select>'
+		$('.position-list-container').html(html);
+	}
+};
+
+async function fnSignUp(){
+	const email = document.getElementById('email').value;
+	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	
+	if (!emailRegex.test(email)){
+		alert(_MSG.EMAIL_REGEX);
+		document.getElementById('email').focus();
+        return;
+	}
+	
+	var data = {
+			deptId: document.getElementById('deptId').value,
+			posId: document.getElementById('posCode').value,
+			name: document.getElementById('name').value,
+			password: document.getElementById('password').value,
+			email: document.getElementById('email').value
+	};
+	const res = await callApi('/api/users/sign-up','post',data);
+	
+	if (res){
+		alert(_MSG.CREATE_ACCOUNT_SUCCESS);
+		location.href ="/users/sign-in";
+	}
+}
+</script>
+</body>
+</html>
