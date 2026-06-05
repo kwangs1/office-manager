@@ -11,7 +11,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	// password Encryption Been
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -20,31 +19,22 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http
-			.csrf(csrf -> csrf.disable()) // 잠시 off
+			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
-				// 로그인, 회원가입, 비밀번호 찾기
 				.requestMatchers(
 						"/users/sign-up",
 						"/users/sign-in", 
 						"/api/users/sign-up",
 						"/api/users/check-email",
-						"/api/users/*/password-reset"
-				).permitAll()
-				// 정적 리소스
-				.requestMatchers(
+						"/api/users/*/password-reset",
+						"/org/depts/dept-tree-popup",
+						"/api/org/depts/tree",
+						"/api/org/positions",
 						"/css/**", 
 						"/js/**", 
 						"/images/**"
 				).permitAll()
-				// 회원가입에 필요한 부서/직위 API
-				.requestMatchers(
-						"/org/depts/dept-tree-popup", 
-						"/api/org/depts/tree", 
-						"/api/org/positions"
-				).permitAll()
-				// 관리자만 접근 페이지
 				.requestMatchers("/org/**").hasRole("ADMIN")
-				// 그 외 모든 요청은 로그인 해야함.
 				.anyRequest().authenticated()
 			)
 			.formLogin(form -> form
@@ -52,7 +42,7 @@ public class SecurityConfig {
 				.loginProcessingUrl("/login-proc")
                 .usernameParameter("empNo")
                 .passwordParameter("password")
-				.defaultSuccessUrl("/users/profileDetails",true)
+				.defaultSuccessUrl("/calendars",true)
                 .failureUrl("/users/sign-in?error=true")
 				.permitAll()
 			)
