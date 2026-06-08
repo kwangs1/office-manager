@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.workflow.office.calendar.mapper.CalendarMapper">
+	<select id="list" resultType="com.workflow.office.calendar.domain.CalendarMaster">
+		SELECT 
+			cal_master_id AS calMasterId,
+			cal_name AS calName,
+			cal_type AS calType,
+			owner_id AS ownerId,
+			dept_id AS deptId,
+			use_yn AS useYn,
+			del_yn AS delYn,
+			reg_id AS regId,
+			reg_dt AS regDt,
+			mod_id AS modId,
+			mpd_dt AS modDt
+		FROM TB_CALENDAR_MASTER
+		WHERE del_yn = 'N'
+	</select>
+	
+	<select id="info" parameterType="int" resultType="com.workflow.office.calendar.domain.CalendarMaster">
+		SELECT 
+			cal_master_id AS calMasterId,
+			cal_name AS calName,
+			cal_type AS calType,
+			owner_id AS ownerId,
+			dept_id AS deptId,
+			use_yn AS useYn,
+			del_yn AS delYn,
+			reg_id AS regId,
+			reg_dt AS regDt
+		FROM TB_CALENDAR_MASTER
+		WHERE cal_master_id = #{calMasterId}
+	</select>
+	
+	<select id="findShareMasterId" parameterType="int" resultType="com.workflow.office.calendar.domain.CalendarShare">
+		SELECT
+			cal_share_id AS calShareId,
+			cal_master_id AS calMasterId,
+			target_type AS targetType,
+			target_id AS targetId,
+			perm_level AS permLevel,
+			reg_id AS regId,
+			reg_dt AS regDt
+		FROM TB_CALENDAR_SHARE
+		WHERE cal_master_id = #{calMasterId}
+	</select>
+	
+	<insert id="register" parameterType="com.workflow.office.calendar.domain.CalendarMaster" useGeneratedKeys="true" keyProperty="calMasterId">
+		INSERT INTO TB_CALENDAR_MASTER(
+			cal_name, cal_type,	owner_id, dept_id, use_yn, del_yn, reg_id,	
+		) VALUES (
+			#{calName},	#{calType},	#{ownerId},	#{deptId}, #{useYn}, #{delYn}, #{regId}
+		)
+	</insert>
+	
+	<insert id="insertShare" parameterType="com.workflow.office.calendar.domain.CalendarShare" useGeneratedKeys="true" keyProperty="calShareId">
+		INSERT INTO TB_CALENDAR_SHARE(
+			cal_master_id, target_type, target_id, perm_level, reg_id
+		) VALUES (
+			#{calMasterId}, #{targetType}, #{targetId},	#{permLevel}, #{regId}
+		)
+	</insert>
+	
+	<select id="findById" parameterType="int" resultType="com.workflow.office.calendar.domain.CalendarMaster">
+		SELECT 
+			cal_master_id AS calMasterId,
+			cal_name AS calName,
+			cal_type AS calType,
+			owner_id AS ownerId,
+			dept_id AS deptId,
+			use_yn AS useYn,
+			del_yn AS delYn,
+			reg_id AS regId,
+			reg_dt AS regDt,
+			mod_id AS modId,
+			mpd_dt AS modDt,
+		FROM TB_CALENDAR_MASTER
+		WHERE cal_master_id = #{calMasterId}
+	</select>
+	
+	<update id="update" parameterType="com.workflow.office.calendar.domain.CalendarMaster">
+		UPDATE TB_CALENDAR_MASTER
+		<set>
+			<if test="calName != null">cal_name = #{calName},</if> 
+			<if test="calType != null">cal_type = #{calType},</if>
+			<if test="useYn != null">use_yn = #{useYn},</if>
+			<if test="delYn != null">del_yn = #{delYn},</if>
+			<if test="modId != null">mod_id = #{modId},</if>
+			mod_dt = #{modDt}
+		</set>
+		 where cal_master_id = #{calMasterId}	
+	</update>
+	
+	<delete id="deleteShareByMasterId">
+		DELETE FROM TB_CALENDAR_SHARE WHERE cal_master_id = #{calMasterId}
+	</delete>
+</mapper>

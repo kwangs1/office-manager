@@ -3,6 +3,7 @@ package com.workflow.office.calendar.domain;
 import java.time.LocalDateTime;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,4 +17,14 @@ public class CalendarShare {
 	private String permLevel;
 	private Integer regId;
 	private LocalDateTime regDt;
+	
+	@Builder
+	public CalendarShare(Integer calMasterId, String targetType, Integer targetId, String permLevel, Integer regId, LocalDateTime regDt) {
+		this.calMasterId = calMasterId;
+		this.targetType = targetType;
+		this.targetId = targetId;
+		this.permLevel = permLevel;
+		this.regId = regId;
+		this.regDt = LocalDateTime.now(); 
+	}
 }
