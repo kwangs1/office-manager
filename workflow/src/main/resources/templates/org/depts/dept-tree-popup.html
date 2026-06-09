@@ -10,25 +10,64 @@
         <div id="jstree_demo_div"></div>
     </div>
     
+	<div class="user-list-box" style="width: 50%;">
+         <div id="user_list_box"></div>
+    </div>
+    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script th:src="@{/js/common/api.js}"></script>
 <script th:src="@{/js/common/org/dept-tree.js}"></script>
-<script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+	const mode = /*[[${mode}]]*/ 'default';
+/*]]>*/
 $(function(){
-	DeptTree.init('#jstree_demo_div', function(nodeId){
+	DeptTree.init('#jstree_demo_div', mode, function(nodeId){
 		const selectedNode = $('#jstree_demo_div').jstree(true).get_node(nodeId);
 		const deptId = selectedNode.id;
 		const deptName = selectedNode.text;
 		
-		if (window.opener && !window.opener.closed){
-			if (typeof window.opener.fnSetDept === 'function'){
-				window.opener.fnSetDept(deptId, deptName);
-			}
-			window.close();
+		if (mode == 'withUser') {
+			fetchUserListByDept(deptId);
+		} else {
+			if (window.opener && !window.opener.closed) { // 회원가입 시 사용
+				if (typeof window.opener.fnSetDept === 'function') {
+					window.opener.fnSetDept(deptId, deptName);
+				}
+				window.close();
+			}			
 		}
 	});
 });
+
+async function fetchUserListByDept(deptId){
+	const res = await callApi(`/api/users/${deptId}`, 'GET');
+	if (res && res.data){
+		renderUserList(res.data);
+	}
+}
+
+function renderUserList(userList) {
+    const $container = $('#user_list_box');
+    $container.empty(); 
+    
+    if (userList.length === 0) {
+        $container.append('<p>조회된 유저가 없습니다.</p>');
+        return;
+    }
+    
+    userList.forEach(user => {
+        const html = `
+            <div class="user-item">
+                <input type="checkbox" name="user" value="${user.id}" data-name="${user.name}">
+                <span>${user.name} / ${user.position}</span>
+            </div>
+        `;
+        $container.append(html);
+    });
+}
+
 </script>
 </body>
 </html>

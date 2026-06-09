@@ -3,9 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" th:href="@{/css/users/sign-up.css}" />
+<link rel="stylesheet" th:href="@{/css/common/dept-user-tree-modal.css}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <title th:text="#{signup.txt}"></title>
 <th:block th:replace="~{common/header :: headerFragment}"></th:block>
+<style>
+
+</style>
 </head>
 <body>
 	<div class="signup-container">
@@ -15,7 +20,7 @@
             <div class="form-row">
                 <input type="text" id="deptName" th:placeholder="#{label.dept.selected}" readonly />
                 <input type="hidden" id="deptId" />
-                <button type="button" class="btn-sub" onclick="fnDeptTree()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button type="button" class="btn-sub" onclick="openSignUpDeptModal()"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
         </div>
 
@@ -35,23 +40,17 @@
         
         <button type="button" class="btn-main" onclick="fnSignUp()" th:text="#{signup.btn}"></button>
     </div>
+    <div th:replace="~{modal/deptTreeModal :: deptTreeModal}"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script th:src="@{/js/common/api.js}"></script>
-<script th:src="@{/js/common/common.js}"></script>
+<script th:src="@{/js/common/org/dept-tree.js}"></script>
+<script th:src="@{/js/common/modalEvent.js}"></script>
 <script>
 $(function(){
 	getPositionList();
 });
-
-function fnDeptTree(){
-	const url = '/org/depts/dept-tree-popup';
-	openPopupCenter(url, 'deptsTreePopUp', 500, 460);
-}
-function fnSetDept(id, name){
-	$('#deptName').val(name);
-	$('#deptId').val(id);
-}
 
 async function getPositionList() {
 	const res = await callApi('/api/org/positions', 'GET');

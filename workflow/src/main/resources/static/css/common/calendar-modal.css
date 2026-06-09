@@ -1,0 +1,213 @@
+@charset "UTF-8";
+/* 작성 모달 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.is-visible {
+  display: flex;
+}
+
+.modal-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+.modal-wrapper {
+  position: relative;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 550px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  z-index: 10;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modal-content input[type="text"],
+.modal-content textarea,
+.modal-content select,
+.modal-content input[type="date"] {
+  padding: 8px 8px;
+  border: 1px solid #DDD;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+.modal-content input[type="text"] { width: 80%; }
+.modal-content textarea { width: 100%; resize: none; }
+.modal-content input[type="text"]:focus,
+.modal-content textarea:focus { border-color: #4A90E2; }
+
+.modal-content button {
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease-in-out;
+}
+/* 일정 등록 버튼 */
+.modal-content button[onclick="saveEvent()"] {
+  background-color: #2ECC71;
+  color: white;
+  margin-right: 6px;
+}
+.modal-content button[onclick="saveEvent()"]:hover {
+  background-color: #27AE60;
+}
+
+.modal-content button[onclick="closeEventModal()"] {
+  background-color: #E0E0E0;
+  color: #333;
+}
+
+.modal-content button[onclick="closeEventModal()"]:hover {
+  background-color: #D5D5D5;
+}
+/* 달력 등록 버튼*/
+.modal-content button[onclick="saveCalendarMaster()"] {
+  background-color: #2ECC71;
+  color: white;
+  margin-right: 6px;
+}
+.modal-content button[onclick="saveCalendarMaster()"]:hover {
+  background-color: #27AE60;
+}
+
+.modal-content button[onclick="closeMasterModal()"] {
+  background-color: #E0E0E0;
+  color: #333;
+}
+
+.modal-content button[onclick="closeMasterModal()"]:hover {
+  background-color: #D5D5D5;
+}
+
+
+
+/* 상세보기 모달*/
+.modal-info-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-info-content {
+  background: #fff;
+  width: 680px;
+  height: 200px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  display: flex;
+  padding: 20px;
+  box-sizing: border-box;
+  gap: 20px;
+}
+
+.modal-body-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-input-title {
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-bottom: 2px solid #edf2f7;
+  outline: none;
+  padding: 5px 0;
+  width: 100%;
+}
+.modal-input-content {
+  flex: 1;
+  border: none;
+  resize: none;
+  outline: none;
+  font-size: 14px;
+  color: #4a5568;
+  width: 100%;
+}
+
+.modal-body-right {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.all-day-wrap {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.date-time-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+.date-time-row input[type="date"] {
+  width: 120px;
+  padding: 4px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.date-time-row select {
+  width: 60px;
+  padding: 4px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fff;
+}
+.date-time-label {
+  font-size: 12px;
+  color: #718096;
+  margin-left: 2px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 6px;
+}
+.btn-group button {
+  flex: 1;
+  border: none;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.btn-del { background: #fee2e2; color: #ef4444; }
+.btn-del:hover { background: #fca5a5; }
+.btn-edit { background: #3b82f6; color: #fff; }
+.btn-edit:hover { background: #2563eb; }
+.btn-close { background: #f1f5f9; color: #64748b; }
+.btn-close:hover { background: #cbd5e1; }

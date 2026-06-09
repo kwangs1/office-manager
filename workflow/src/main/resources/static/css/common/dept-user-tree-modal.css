@@ -1,0 +1,61 @@
+@charset "UTF-8";
+/* 부서 & 유저 트리 모달*/
+.modal { 
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 1000; 
+    align-items: center; 
+    justify-content: center; 
+}
+.modal.is-visible { display: flex !important; }
+.modal-content { 
+    background: #fff; 
+    width: 600px; 
+    padding: 25px; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+}
+.modal-header { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+.modal-header h3 { margin: 0; color: #333; }
+.modal-body { 
+    display: flex; 
+    gap: 15px; 
+    height: 350px;
+    margin-bottom: 20px;
+}
+.tree-box { 
+    flex: 1; 
+    border: 1px solid #ddd; 
+    overflow-y: auto; 
+    padding: 10px; 
+    border-radius: 6px; 
+}
+.user-list-box { 
+    flex: 1; 
+    border: 1px solid #ddd; 
+    overflow-y: auto; 
+    padding: 10px; 
+    border-radius: 6px; 
+    background: #fafafa; 
+    display: none; 
+}
+.user-item { 
+    padding: 8px; 
+    border-bottom: 1px solid #eee; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+.modal-footer { text-align: right; }
+.btn-close { 
+    background: #6c757d; 
+    color: white; 
+    border: none; 
+    padding: 8px 16px; 
+    border-radius: 6px; 
+    cursor: pointer; 
+}
+.btn-close:hover { background: #5a6268; }

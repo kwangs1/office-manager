@@ -7,9 +7,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.workflow.office.global.handler.CustomLoginSuccessHandler;
+
+import lombok.RequiredArgsConstructor;
+
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+	private final CustomLoginSuccessHandler customLoginSuccessHandler;
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -42,15 +48,15 @@ public class SecurityConfig {
 				.loginProcessingUrl("/login-proc")
                 .usernameParameter("empNo")
                 .passwordParameter("password")
-				.defaultSuccessUrl("/calendars",true)
+                .successHandler(customLoginSuccessHandler)
                 .failureUrl("/users/sign-in?error=true")
 				.permitAll()
 			)
 			.logout(logout -> logout
 				.logoutUrl("/api/sign-out")
 				.logoutSuccessUrl("/users/sign-in")
-				.invalidateHttpSession(true) // 세션 무효화
-				.deleteCookies("JSESSIONID") // 쿠키 삭제
+				.invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID")
 			);
 		
 		return http.build();

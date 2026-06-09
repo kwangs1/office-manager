@@ -24,6 +24,17 @@
         <result property="grantedBy" column="granted_by" />
     </collection>
 </resultMap>
+
+	<select id="findUsersByDeptId" resultType="com.workflow.office.user.domain.User">
+		SELECT
+			id,
+			emp_no AS emp_no,
+			name ,
+			dept_id AS deptId,
+			pos_id AS posId
+		FROM TB_USER 
+		WHERE dept_id = #{deptId}
+	</select>
 	
 	<insert id="signup" parameterType="com.workflow.office.user.domain.User">
 		INSERT INTO tb_user(

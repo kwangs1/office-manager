@@ -1,0 +1,36 @@
+<div id="detailModal" class="modal-info-overlay" th:fragment="modal">
+	<div class="modal-info-content">
+		<div class="modal-body-left">
+			<input type="text" id="modalTitle" class="modal-input-title">
+			<textarea id="modalContent" class="modal-input-content"></textarea>
+		</div>
+		<div class="modal-body-right">
+			<div class="all-day-wrap">
+				<input type="checkbox" id="detailAllDay"> <label
+					for="detailAllDay">종일</label>
+			</div>
+			<div class="date-time-container">
+				<div class="date-time-row">
+					<input type="date" id="detailStart"> <select
+						id="detailStartHours" class="hour-select"></select> <select
+						id="detailStartMin" class="min-select"></select> <span
+						class="date-time-label">시작</span>
+				</div>
+				<div class="date-time-row">
+					<input type="date" id="detailEnd"> <select
+						id="detailEndHours" class="hour-select"></select> <select
+						id="detailEndMin" class="min-select"></select> <span
+						class="date-time-label">종료</span>
+				</div>
+			</div>
+			<div class="btn-group">
+				<button type="button" id="btnDelete" class="btn-del"
+					onclick="deleteEvent()">삭제</button>
+				<button type="button" id="btnUpdate" class="btn-edit"
+					onclick="updateEvent()">수정</button>
+				<button type="button" id="btnClose" class="btn-close"
+					onclick="closeInfoModal()">닫기</button>
+			</div>
+		</div>
+	</div>
+</div>

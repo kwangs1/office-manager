@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+body {
+  margin: 15px;
+  padding: 0;
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  font-size: 14px;
+  background-color: #f8fafc;
+}
+
+/* 사이드바 + 메인 달력 전체 감싸는 Flex 레이아웃 */
+.calendar-container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* 왼쪽 사이드바 디자인 (로그아웃 하단 고정을 위해 Flex 추가) */
+.calendar-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  border-right: 1px solid #edf2f7;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 650px; /* 달력 높이와 균형을 맞추기 위한 최소 높이 */
+}
+
+/* 우측 메인 영역 확장 */
+.calendar-main {
+  flex-grow: 1;
+}
+
+#calendar {
+  width: 100%;
+}
+
+/* [새 달력 추가] 버튼 스타일 */
+.btn-add-type {
+  width: 100%;
+  padding: 10px 0;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 25px;
+}
+.btn-add-type:hover {
+  background-color: #2563eb;
+}
+
+/* 카테고리 리스트 섹션 (남은 공간을 채워서 로그아웃을 아래로 밀어냄) */
+.type-list-section {
+  flex-grow: 1;
+}
+.type-list-section h3 {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+.type-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.type-list li {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+.type-list label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #334155;
+  user-select: none;
+}
+.type-list input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* 리스트 왼쪽에 배치할 동그란 색상 배지 */
+.color-badge {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/* 로그아웃 섹션 스타일 (사이드바 맨 하단 배치) */
+.logout-section {
+  margin-top: auto; /* 여백을 위로 밀어내어 바닥에 고정 */
+  padding-top: 20px;
+  border-top: 1px solid #edf2f7;
+}
+
+.btn-logout {
+  width: 100%;
+  padding: 10px 0;
+  background-color: transparent;
+  color: #ef4444; /* 부드러운 빨간색 */
+  border: 1px solid #fee2e2;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.logout-icon {
+  margin-right: 6px;
+  font-size: 15px;
+}
+
+/* 마우스 올렸을 때 깔끔한 붉은색 반전 효과 */
+.btn-logout:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+/* eventMouseEnter tool tip */
+.fc-tooltip {
+  display: none;
+  position: absolute;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  max-width: 250px;
+  pointer-events: none;
+}

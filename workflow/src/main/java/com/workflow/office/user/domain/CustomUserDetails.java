@@ -33,6 +33,8 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public String getUsername() { return userVO.getEmpNo();}
 	
+	public User getUser() { return this.userVO;}
+	
 	// 계정 잠금, 만료 여부 등은 일단 true
     @Override public boolean isAccountNonExpired() { return true; }
     @Override public boolean isAccountNonLocked() { return true; }

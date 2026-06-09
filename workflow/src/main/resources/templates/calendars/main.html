@@ -1,22 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calendar</title>
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css' rel='stylesheet' />
-
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth'
-    });
-    calendar.render();
-  });
-</script>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css' />
+<link rel="stylesheet" th:href="@{/css/calendar/calendar.css(v=${#dates.createNow().getTime()})}" />
+<link rel="stylesheet" th:href="@{/css/common/calendar-modal.css(v=${#dates.createNow().getTime()})}" />
 </head>
 <body>
-<div id="calendar"></div>
+	<div class="calendar-container">
+
+		<div class="calendar-sidebar">
+			<button type="button" class="btn-add-type" onclick="openMasterSaveModal()">
+				+ 새 달력 추가
+			</button>
+
+			<div class="type-list-section">
+				<h3>내 캘린더 목록</h3>
+				<ul class="type-list">
+					<th:block th:if="${not #lists.isEmpty(typeList)}">
+						<li th:each="type : ${typeList}"><label> <input
+								type="checkbox" name="calendarType" th:value="${type.typeCode}"
+								checked> <span class="color-badge"
+								th:style="'background-color: ' + ${type.color}"></span> <span
+								th:text="${type.typeName}">타입명</span>
+						</label></li>
+					</th:block>
+					<th:block th:unless="${not #lists.isEmpty(typeList)}">
+						<li><label> <input type="checkbox"
+								name="calendarType" value="1" checked> <span
+								class="color-badge" style="background-color: #3b82f6;"></span>
+								전사 일정
+						</label></li>
+						<li><label> <input type="checkbox"
+								name="calendarType" value="2" checked> <span
+								class="color-badge" style="background-color: #2ecc71;"></span>
+								개인 일정
+						</label></li>
+					</th:block>
+				</ul>
+			</div>
+
+			<form th:action="@{/api/sign-out}" method="POST" class="logout-section">
+				<button type="submit" class="btn-logout">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+					        <polyline points="16 17 21 12 16 7"></polyline>
+					        <line x1="21" y1="12" x2="9" y2="12"></line>
+    				</svg> 로그아웃
+				</button>
+			</form>
+		</div>
+
+		<div class="calendar-main">
+			<div id="calendar"></div>
+		</div>
+	</div>
+
+	<div id="calendarTooltip" class="fc-tooltip"></div>
+
+	<div th:replace="~{modal/eventSaveModal :: modal}"></div>
+	<div th:replace="~{modal/masterSaveModal :: modal}"></div>
+	<div th:replace="~{modal/eventDetailModal :: modal}"></div>
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<script th:src="@{/js/common/api.js}"></script>
+<script th:src="@{/js/common/dateUtil.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/calendar/calendar.api.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/calendar/calendar.event.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var loginUser = /*[[${session.loginUserId}]]*/ 'defaultId';
+var loginUserNm = /*[[${session.loginUserNm}]]*/ 'defaultName';
+/*]]>*/
+const colorPicker = document.getElementById('ui_attr');
+const badge = document.getElementById('previewBadge');
+colorPicker.addEventListener('input', (event) => {
+	badge.style.backgroundColor = event.target.value;
+});
+
+function openMasterSaveModal() {
+	document.getElementById('MasterModal').classList.add('is-visible');
+}
+
+function closeMasterSaveModal() {
+	document.getElementById('MasterModal').classList.remove('is-visible');
+	document.getElementById('typeName').value = '';
+	document.getElementById('description').value = '';
+	document.getElementById('ui_attr').value = '#3b82f6';
+
+	const dynamicList = document.getElementById('dynamicShareList');
+	if (dynamicList) dynamicList.innerHTML = '';
+
+	const noMsg = document.getElementById('noShareMsg');
+	if (noMsg) noMsg.style.display = 'inline';
+}
+
+async function saveCalendarMaster() {
+	const typeName = document.getElementById('typeName').value;
+	const typeColor = document.getElementById('ui_attr').value;
+	const ownerTp = document.querySelector('input[name="ownerTp"]:checked')?.value;
+	const description = document.getElementById('description').value;
+
+	if(!typeName || typeName.trim() === "") {
+		alert("캘린더 이름을 입력해주세요!");
+		return;
+	}
+
+	const shareRows = document.querySelectorAll('.share-user-item');
+	const shareList = [];
+
+	shareRows.forEach(function(row) {
+		const shareUserId = row.getAttribute('data-user-id');
+		const isRead = row.querySelector('.user-read').checked ? 1 : 0;
+		const isWrtie = row.querySelector('.user-write').checked ? 1 : 0;
+		const isModify = row.querySelector('.user-modify').checked ? 1 : 0;
+
+		shareList.push({
+			auth_user_id: parseInt(shareUserId),
+			read_auth: isRead,
+			write_auth: isWrtie,
+			modify_auth: isModify
+		});
+	});
+
+	const data = {
+		title: typeName,
+		owner_tp: ownerTp,
+		manager_id: userId,
+		description: description,
+		ui_attr: typeColor,
+		reg_id : userId,
+		shareList : shareList
+	}
+	
+	try {
+		const headers = {"Content-Type" : "application/json"};
+		const res = await fetch("/study/calendar/type?cmd=save", {
+			method: 'POST',
+			headers,
+			body: JSON.stringify(data)
+		});
+		const Msg = await res.text();
+		if (!res.ok) {
+			throw new Error(Msg);
+		}
+
+		alert(Msg);
+		closeMasterSaveModal();
+	} catch (error) {
+		alert(error.message);
+	}
+}
+</script>
 </body>
 </html>

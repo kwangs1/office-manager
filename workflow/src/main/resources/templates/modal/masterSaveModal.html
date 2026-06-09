@@ -1,0 +1,42 @@
+<div class='modal' id='MasterModal' th:fragment="modal">
+    <div class='modal-overlay' onclick="closeMasterSaveModal()"></div>
+    <div class='modal-wrapper'>
+        <div class='modal-content'>
+            <h3>새 캘린더 추가</h3>
+            <input type="radio" id="ownerTp1" name="ownerTp" value="4"/> <label for="ownerTp1">개인</label>
+            <input type="radio" id="ownerTp2" name="ownerTp" value="2"/> <label for="ownerTp2">부서</label>
+            <br><br>
+
+            <label for="ui_attr">캘린더 색상</label>
+            <span id="previewBadge" class="color-badge" style="background-color:#3b82f6"></span>
+            <input type="color" id="ui_attr" value="#3b82f6" 
+                style="width: 50px; height: 30px; cursor: pointer; vertical-align: middle; border: 1px solid #ddd; border-radius: 4px;"/>
+            <br><br>
+            
+            <label>달력명</label>
+            <input type="text" id="typeName"/>
+            <br>
+
+            <label>관리자</label>
+            <input type="text" id="managerId" th:value="${session.loginUserNm}" readonly />
+            <br><br>
+
+            <label>공유자 설정</label>
+            <button type="button" onclick="openUserModal()" style="padding: 4px 10px; cursor:pointer;">+ 공유자 추가</button>
+
+            <div id="shareUserContainer" 
+                style="margin-top: 10px; border: 1px solid #ddd; padding: 10px; 
+                max-height: 150px; overflow-x: hidden; overflow-y: auto; border-radius: 4px;">
+                <span id="noShareMsg" style="color: #999; font-size: 13px;">선택된 공유자가 없습니다.</span>
+                <ul id="dynamicShareList" style="list-style:none; padding:0; margin:0;"></ul>
+            </div>
+
+            <label>설명</label>
+            <textarea rows="4" id="description"></textarea>
+
+            <button type="button" onclick="saveCalendarMaster()">저장</button>
+            <button type="button" onclick="closeMasterSaveModal()">취소</button>
+        </div>
+    </div>
+    
+</div>

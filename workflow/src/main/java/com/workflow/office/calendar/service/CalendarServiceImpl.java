@@ -49,7 +49,16 @@ public class CalendarServiceImpl implements CalendarService{
 	@Override
 	@Transactional
 	public CalendarDTO.Response register(CalendarDTO.MasterCreateRequest requestDto) {
-		CalendarMaster master = requestDto.toEntity();
+		//CalendarMaster master = requestDto.toEntity();
+		CalendarMaster master = CalendarMaster.builder()
+				.calName(requestDto.getCalName())
+				.calType(requestDto.getCalType())
+				.ownerId(requestDto.getOwnerId())
+				.deptId(requestDto.getDeptId())
+				.useYn(requestDto.getUseYn())
+				.delYn(requestDto.getDelYn())
+				.regId(requestDto.getRegId())
+				.build();
 		master.validateCalendarCreate();
 		
 		if (calendarMapper.register(master) <= 0) {
@@ -110,4 +119,5 @@ public class CalendarServiceImpl implements CalendarService{
 		}
 		return new CalendarDTO.Response(currentData);
 	}
+	
 }

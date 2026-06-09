@@ -12,9 +12,4 @@ public class DeptPageController {
 	public String deptMainPage() {
 		return "org/depts/deptMgmt";
 	}
-
-	@GetMapping("/dept-tree-popup")
-	public String treePopup() {
-		return "org/depts/dept-tree-popup";
-	}
 }

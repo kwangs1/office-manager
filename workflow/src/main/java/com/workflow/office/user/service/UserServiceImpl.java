@@ -1,5 +1,6 @@
 package com.workflow.office.user.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,15 @@ public class UserServiceImpl implements UserService{
 	private final UserMapper userMapper;
 	private final BCryptPasswordEncoder passwordEncoder;
 	
+	@Override
+	@Transactional(readOnly = true)
+	public List<User> getUserList(Integer deptId) {
+		if (deptId == null) {
+			throw new IllegalArgumentException("dept.not.found");
+		}
+		List<User> getUserList = userMapper.findUsersByDeptId(deptId);
+		return getUserList;
+	}
 	@Override
 	@Transactional
 	public UserDTO.Response signup(UserDTO.CreateRequest requestDto) {

@@ -1,5 +1,7 @@
 package com.workflow.office.user.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.workflow.office.user.domain.User;
@@ -7,6 +9,8 @@ import com.workflow.office.user.dto.UserDTO;
 
 @Mapper
 public interface UserMapper {
+	
+	List<User> findUsersByDeptId(Integer deptId);
 
 	int signup(User vo);
 	

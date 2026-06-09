@@ -1,0 +1,25 @@
+<div class='modal' id='saveModal' th:fragment="modal">
+    <div class='modal-overlay' onclick="closeEventModal()"></div>
+    <div class='modal-wrapper'>
+        <div class='modal-content'>
+            <h3>일정 등록</h3>
+            <input type="text" id="title" placeholder="일정명"/>
+            &nbsp; <input type="checkbox" id="allDay" value="Y"/>종일
+            <br><br>
+
+            <input type="date" id="start"/>
+            <select id="startHours" class="hour-select"></select>
+            <select id="startMin" class="min-select"></select>
+            -
+            <input type="date" id="end"/>
+            <select id="endHours" class="hour-select"></select>
+            <select id="endMin" class="min-select"></select>
+            <br><br>
+
+            <textarea cols="50" rows="5" id="content" placeholder="상세내용 입력"></textarea>
+            <br><br>
+            <button type="button" onclick="saveEvent()">저장</button>
+            <button type="button" onclick="closeEventModal()">취소</button>
+        </div>
+    </div>
+</div>

@@ -4,17 +4,28 @@
 const DeptTree = {
 	instance: null,
 	
-	init: function(elementId, onSelectCallback){
+	init: function(elementId, mode, onSelectCallback){
+		if ($(elementId).hasClass('jstree')) {
+			$(elementId).jstree('destroy');
+		}
+		const plugins = ["wholerow"];
+		if (mode === 'withUser') plugins.push("checkbox");
+		
 		this.instance = $(elementId).jstree({
+			'plugins' : plugins,
 			'core':{
 				'data':{
 					'url': '/api/org/depts/tree',
 					'dataFilter': (data) => this.filterData(data)
 				}
+			},
+			'checkbox': {
+				'three_state': false,
+				'whole_node': false
 			}
-		}).on("select_node.jstree", (e, data) =>{
-			if(onSelectCallback) onSelectCallback(data.node.id);
-		})
+        }).on("select_node.jstree check_node.jstree uncheck_node.jstree", (e, data) => {
+            if (onSelectCallback) onSelectCallback(data.node.id);
+        });
 	},
 	
 	//데이터 가공
