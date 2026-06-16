@@ -1,18 +1,32 @@
 <div class="modal" id="deptTreeModal" th:fragment="deptTreeModal" >
-<div class="modal-content">
-        <div class="modal-header">
-            <h3>부서 선택</h3>
-        </div>
-        
-        <div class="modal-body">
-            <div class="tree-box">
-                <div id="jstree_demo_div"></div>
-            </div>
-            <div class="user-list-box" id="user_list_box"></div>
-        </div>
-        
-        <div class="modal-footer">
-            <button type="button" class="btn-close" onclick="closeDeptModal()">닫기</button>
-        </div>
-    </div>
+	<div class="modal-deptTree-content">
+	  <div class="modal-header">
+	     <h3>부서 선택</h3>
+	  </div>
+	       
+	  <div class="modal-body">
+			<div class="tree-container" style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+		        <div class="tree-options" style="padding: 5px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 4px;">
+		            <label style="cursor: pointer; font-size: 0.9em;">
+		                <input type="checkbox" id="includeSubDepts" /> 하위 부서 포함 선택
+		            </label>
+		         </div>
+		         <div class="tree-box">
+		             <div id="jstree_demo_div"></div>
+		         </div>
+	        </div>
+			<div class="user-list-box" id="user_list_box">
+			    <div class="user-item" id="all_check_wrapper" style="border-bottom: 2px solid #ddd; background: #eee; font-weight: bold;">
+			        <input type="checkbox" id="checkAllUsers" />
+			        <label for="checkAllUsers">전체 선택</label>
+			    </div>
+			    <ul id="user_list_ul" style="list-style: none; padding: 0; margin: 0;"></ul>
+			</div>
+	   </div>
+	       
+	    <div class="modal-footer">
+	        <button type="button" id="btn-send" class="btn-send" onclick="CalendarShare.sendSelected()">확인</button>
+	        <button type="button" class="btn-close" onclick="closeDeptModal()">닫기</button>
+	    </div>
+	</div>
 </div>

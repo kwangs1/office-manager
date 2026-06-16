@@ -25,7 +25,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         HttpSession session = request.getSession();
 
         session.setAttribute("loginUserId", user.getId());
-        session.setAttribute("loginUserNm", user.getName()); 
+        session.setAttribute("loginUserNm", user.getName());
+        session.setAttribute("loginDeptId", user.getDeptId()); 
         
         response.sendRedirect("/calendars");
     }

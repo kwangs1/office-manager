@@ -5,8 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calendar</title>
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css' />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 <link rel="stylesheet" th:href="@{/css/calendar/calendar.css(v=${#dates.createNow().getTime()})}" />
-<link rel="stylesheet" th:href="@{/css/common/calendar-modal.css(v=${#dates.createNow().getTime()})}" />
+<link rel="stylesheet" th:href="@{/css/common/calendar/calendar-modal.css(v=${#dates.createNow().getTime()})}" />
+<link rel="stylesheet" th:href="@{/css/common/org/dept-user-tree-modal.css(v=${#dates.createNow().getTime()})}" />
+
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+<script th:src="@{/js/common/org/dept-tree.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/common/api.js}"></script>
+<script th:src="@{/js/common/dateUtil.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/common/modalEvent.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/calendar/calendarShare.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/calendar/calendar.api.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/calendar/calendar.event.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/calendar/calendar.service.js(v=${#dates.createNow().getTime()})}"></script>
 </head>
 <body>
 	<div class="calendar-container">
@@ -60,99 +75,34 @@
 
 	<div id="calendarTooltip" class="fc-tooltip"></div>
 
-	<div th:replace="~{modal/eventSaveModal :: modal}"></div>
-	<div th:replace="~{modal/masterSaveModal :: modal}"></div>
-	<div th:replace="~{modal/eventDetailModal :: modal}"></div>
+	<div th:replace="~{modal/eventSaveModal :: eventSaveModal}"></div>
+	<div th:replace="~{modal/eventDetailModal :: eventDetailModal}"></div>
+	<div th:replace="~{modal/masterSaveModal :: masterSaveModal}"></div>
+	<div th:replace="~{modal/deptTreeModal :: deptTreeModal}"></div>
 
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-<script th:src="@{/js/common/api.js}"></script>
-<script th:src="@{/js/common/dateUtil.js(v=${#dates.createNow().getTime()})}"></script>
-<script th:src="@{/js/calendar/calendar.api.js(v=${#dates.createNow().getTime()})}"></script>
-<script th:src="@{/js/calendar/calendar.event.js(v=${#dates.createNow().getTime()})}"></script>
 <script th:inline="javascript">
-/*<![CDATA[*/
-var loginUser = /*[[${session.loginUserId}]]*/ 'defaultId';
-var loginUserNm = /*[[${session.loginUserNm}]]*/ 'defaultName';
-/*]]>*/
-const colorPicker = document.getElementById('ui_attr');
-const badge = document.getElementById('previewBadge');
-colorPicker.addEventListener('input', (event) => {
-	badge.style.backgroundColor = event.target.value;
+$(document).on('click', '.user-chk', function() {
+    CalendarShare.toggleUser(
+        $(this).attr('data-id'), 
+        $(this).attr('data-nm'), 
+        $(this).is(':checked')
+    );
 });
 
-function openMasterSaveModal() {
-	document.getElementById('MasterModal').classList.add('is-visible');
-}
+// 전체 선택
+$(document).on('click', '#checkAllUsers', function() {
+    const isChecked = $(this).is(':checked');
+    $('.user-chk').prop('checked', isChecked);
+    
+    $('.user-chk').each(function() {
+        CalendarShare.toggleUser($(this).attr('data-id'), $(this).attr('data-nm'), isChecked);
+    });
+});
 
-function closeMasterSaveModal() {
-	document.getElementById('MasterModal').classList.remove('is-visible');
-	document.getElementById('typeName').value = '';
-	document.getElementById('description').value = '';
-	document.getElementById('ui_attr').value = '#3b82f6';
-
-	const dynamicList = document.getElementById('dynamicShareList');
-	if (dynamicList) dynamicList.innerHTML = '';
-
-	const noMsg = document.getElementById('noShareMsg');
-	if (noMsg) noMsg.style.display = 'inline';
-}
-
-async function saveCalendarMaster() {
-	const typeName = document.getElementById('typeName').value;
-	const typeColor = document.getElementById('ui_attr').value;
-	const ownerTp = document.querySelector('input[name="ownerTp"]:checked')?.value;
-	const description = document.getElementById('description').value;
-
-	if(!typeName || typeName.trim() === "") {
-		alert("캘린더 이름을 입력해주세요!");
-		return;
-	}
-
-	const shareRows = document.querySelectorAll('.share-user-item');
-	const shareList = [];
-
-	shareRows.forEach(function(row) {
-		const shareUserId = row.getAttribute('data-user-id');
-		const isRead = row.querySelector('.user-read').checked ? 1 : 0;
-		const isWrtie = row.querySelector('.user-write').checked ? 1 : 0;
-		const isModify = row.querySelector('.user-modify').checked ? 1 : 0;
-
-		shareList.push({
-			auth_user_id: parseInt(shareUserId),
-			read_auth: isRead,
-			write_auth: isWrtie,
-			modify_auth: isModify
-		});
-	});
-
-	const data = {
-		title: typeName,
-		owner_tp: ownerTp,
-		manager_id: userId,
-		description: description,
-		ui_attr: typeColor,
-		reg_id : userId,
-		shareList : shareList
-	}
-	
-	try {
-		const headers = {"Content-Type" : "application/json"};
-		const res = await fetch("/study/calendar/type?cmd=save", {
-			method: 'POST',
-			headers,
-			body: JSON.stringify(data)
-		});
-		const Msg = await res.text();
-		if (!res.ok) {
-			throw new Error(Msg);
-		}
-
-		alert(Msg);
-		closeMasterSaveModal();
-	} catch (error) {
-		alert(error.message);
-	}
-}
+/*<![CDATA[*/
+var loginUserId = /*[[${session.loginUserId}]]*/ 'default';
+var logindeptId = /*[[${session.loginDeptId}]]*/ 'default';
+/*]]>*/
 </script>
 </body>
 </html>

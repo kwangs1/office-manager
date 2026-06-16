@@ -168,19 +168,3 @@ document.addEventListener('DOMContentLoaded', function() {
 	calendar = new FullCalendar.Calendar(document.getElementById('calendar'), calendarOptions);
 	calendar.render();
 });
-function closeEventModal() {
-	document.getElementById('saveModal').classList.remove('is-visible');
-
-	document.getElementById("title").value = "";
-	document.getElementById("content").value = "";
-	
-	document.getElementById("allDay").checked = false;
-	document.getElementById("startHours").disabled = false;
- 	document.getElementById("startMin").disabled = false;
- 	document.getElementById("endHours").disabled = false;
- 	document.getElementById("endMin").disabled = false;
-}
-
-function closeInfoModal() {
-	document.getElementById('detailModal').style.display = 'none';
-}

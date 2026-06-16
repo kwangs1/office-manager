@@ -71,9 +71,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script th:src="@{/js/common/api.js}"></script>
-<script th:src="@{/js/common/common.js}"></script>
-<script th:src="@{/js/common/org/dept-tree.js}"></script>
-<script th:src="@{/js/common/org/dept-manager.js}"></script>
+<script th:src="@{/js/common/org/dept-tree.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/common/org/dept-manager.js(v=${#dates.createNow().getTime()})}"></script>
 <script>
 $(function(){
 	DeptManager.init();

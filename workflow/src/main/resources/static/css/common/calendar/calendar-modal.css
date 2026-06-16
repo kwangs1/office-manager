@@ -1,69 +1,28 @@
 @charset "UTF-8";
 /* 작성 모달 */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
-  justify-content: center;
-  align-items: center;
-}
+/* 모달 레이아웃 */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; justify-content: center; align-items: center; }
+.modal.is-visible { display: flex; }
+.modal-overlay { position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+.modal-wrapper { position: relative; background: white; padding: 25px; border-radius: 12px; width: 550px; box-shadow: 0 4px 20px rgba(0,0,0,0.25); z-index: 10; }
 
-.modal.is-visible {
-  display: flex;
-}
+/* 폼 요소 공통 */
+.input-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+.modal-wrapper input[type="text"] { width: 100%; padding: 8px; border: 1px solid #DDD; border-radius: 6px; box-sizing: border-box; }
 
-.modal-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-}
+/* 가로 정렬 라디오 그룹 */
+.radio-group { display: flex; flex-direction: row; gap: 15px; margin-bottom: 10px; }
+.radio-label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
-.modal-wrapper {
-  position: relative;
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  width: 550px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-  z-index: 10;
-}
+/* 공유자 관련 */
+.btn-share-add { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 10px; cursor: pointer; width: fit-content; margin-bottom: 5px; }
+.share-box { border: 1px solid #ddd; padding: 10px; height: 100px; overflow-y: auto; border-radius: 6px; background: #fdfdfd; }
 
-.modal-content h3 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  color: #333;
-}
+/* 하단 버튼 */
+.modal-footer-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.btn-save { background: #2ECC71; color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; }
+.btn-cancel { background: #E0E0E0; color: #333; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; }
 
-.modal-content input[type="text"],
-.modal-content textarea,
-.modal-content select,
-.modal-content input[type="date"] {
-  padding: 8px 8px;
-  border: 1px solid #DDD;
-  border-radius: 6px;
-  font-size: 14px;
-  outline: none;
-  box-sizing: border-box;
-}
-.modal-content input[type="text"] { width: 80%; }
-.modal-content textarea { width: 100%; resize: none; }
-.modal-content input[type="text"]:focus,
-.modal-content textarea:focus { border-color: #4A90E2; }
-
-.modal-content button {
-  padding: 8px 18px;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
-  transition: background 0.2s ease-in-out;
-}
 /* 일정 등록 버튼 */
 .modal-content button[onclick="saveEvent()"] {
   background-color: #2ECC71;
@@ -100,8 +59,6 @@
 .modal-content button[onclick="closeMasterModal()"]:hover {
   background-color: #D5D5D5;
 }
-
-
 
 /* 상세보기 모달*/
 .modal-info-overlay {

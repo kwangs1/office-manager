@@ -62,7 +62,7 @@
 	
 	<select id="findWithRolesByEmpNo" resultMap="userMap">
 		SELECT 
-			u.id, u.emp_no, u.password, u.name,
+			u.id, u.emp_no, u.password, u.name, u.dept_id,
 			a.id AS auth_id, a.auth_name, a.granted_dt
 		FROM tb_user u
 		LEFT JOIN tb_user_auth a ON u.id = a.user_id

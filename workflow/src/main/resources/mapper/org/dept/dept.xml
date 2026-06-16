@@ -8,6 +8,7 @@
         SELECT 
             id, name, pid, depth, sort_or
         FROM tb_dept
+        WHERE status = '1'
         ORDER BY depth, sort_or
     </select>
     

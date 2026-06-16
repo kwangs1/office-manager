@@ -3,7 +3,7 @@
  */
 const DeptManager = {
 	init: function(){
-		DeptTree.init('#jstree_demo_div', (id) => this.viewDetail(id));
+		DeptTree.init('#jstree_demo_div', 'admin', (id) => this.viewDetail(id));
 		this.bindEvents();
 	},
 	
