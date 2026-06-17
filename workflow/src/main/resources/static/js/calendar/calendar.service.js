@@ -17,9 +17,9 @@ function getAuthData(row, prefix) {
 	return {
 		targetId: parseInt(row.getAttribute('data-id')),
 		targetType: row.getAttribute('data-type'),
-		read_auth: row.querySelector(`.${prefix}-read`)?.checked ? 'read' : '',
-		write_auth: row.querySelector(`.${prefix}-write`).checked ? 'write' : '',
-		modify_auth: row.querySelector(`.${prefix}-modify`).checked ? 'modify' : ''		
+		read_auth: row.querySelector(`.${prefix}-read`)?.checked ? 'Y' : '',
+		write_auth: row.querySelector(`.${prefix}-write`).checked ? 'Y' : '',
+		modify_auth: row.querySelector(`.${prefix}-modify`).checked ? 'Y' : ''		
 	}
 }
 function collectCalendarData() {
@@ -49,7 +49,7 @@ function collectCalendarData() {
 		calType: calType,
 		ownerId: finalOwnerId,
 		deptId: finalDeptId,
-		reg_id: loginUserId,
+		regId: loginUserId,
 		shareList: shareList
 	}
 }

@@ -43,17 +43,18 @@ public class CalendarDTO {
 		private Integer calMasterId;
 		private String targetType;
 		private Integer targetId;
-		private String permLevel;
 		private Integer regId;
 		
-		public CalendarShare toEntity(Integer generatedMasterId) {
-			return CalendarShare.builder()
-					.calMasterId(generatedMasterId)
-					.targetType(this.targetType)
-					.targetId(this.targetId)
-					.permLevel(this.permLevel)
-					.regId(this.regId)
-					.build();
+		private String read_auth;
+		private String write_auth;
+		private String modify_auth;
+		
+		public int getAuthLevel() {
+			int level = 0;
+			if ("Y".equals(read_auth))		level |= 1;
+			if ("Y".equals(write_auth))		level |= 2;
+			if ("Y".equals(modify_auth))	level |= 4;
+			return level;
 		}
 	}
 	
@@ -62,7 +63,7 @@ public class CalendarDTO {
 		private Integer calMasterId;
 		private String targetType;
 		private Integer targetId;
-		private String permLevel;
+		private Integer permLevel;
 		private Integer regId;
 		
 		public ShareResponse(CalendarShare share) {
@@ -71,6 +72,16 @@ public class CalendarDTO {
 			this.targetId = share.getTargetId();
 			this.permLevel = share.getPermLevel();
 			this.regId = share.getRegId();
+		}
+		
+		public boolean isReadable() {
+			return (this.permLevel & CalendarShare.READ) != 0;
+		}
+		public boolean isWritable() {
+			return (this.permLevel & CalendarShare.WRITE) != 0;
+		}
+		public boolean isModifiable() {
+			return (this.permLevel & CalendarShare.MODIFY) != 0;
 		}
 	}
 	

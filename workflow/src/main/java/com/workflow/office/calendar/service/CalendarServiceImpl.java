@@ -58,7 +58,7 @@ public class CalendarServiceImpl implements CalendarService{
 		
 		if (requestDto.getShareList() != null && !requestDto.getShareList().isEmpty()) {
 			for (CalendarDTO.ShareCreateRequest shareDto : requestDto.getShareList()) {
-				CalendarShare share = shareDto.toEntity(master.getCalMasterId()); // 이 부분 toEntity 지우고 여기서 직접 빌드 처리해야할 듯.
+				CalendarShare share = CalendarShare.from(master.getCalMasterId(), master.getRegId(), shareDto);
 				calendarMapper.insertShare(share);
 			}
 		}
@@ -85,7 +85,7 @@ public class CalendarServiceImpl implements CalendarService{
 		calendarMapper.deleteShareByMasterId(calendarId);
 		if (updateDto.getShareList() != null && !updateDto.getShareList().isEmpty()) {
 			for (CalendarDTO.ShareCreateRequest shareDto : updateDto.getShareList()) {
-				CalendarShare share = shareDto.toEntity(calendarId); // 여기도 수정
+				CalendarShare share = CalendarShare.from(calendarId, updateDto.getModId(), shareDto);
 				calendarMapper.insertShare(share);
 			}
 		}

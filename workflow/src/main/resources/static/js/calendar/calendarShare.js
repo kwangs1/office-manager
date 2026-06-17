@@ -106,9 +106,9 @@ const CalendarShare = {
 							 .attr('data-type', 'dept');
 				$deptLi.html(`
 				     <strong style="min-width:80px;">${dept.name}</strong>
-				     <label><input type="checkbox" class="dept-read" checked value="read"/> 읽기</label>
-				     <label><input type="checkbox" class="dept-write" value="write"/> 작성</label>
-				     <label><input type="checkbox" class="dept-modify" value="modify"/> 수정</label>
+				     <label><input type="checkbox" class="dept-read" checked value="Y"/> 읽기</label>
+				     <label><input type="checkbox" class="dept-write" value="Y"/> 작성</label>
+				     <label><input type="checkbox" class="dept-modify" value="Y"/> 수정</label>
 
 				     <button type="button" 
 				           onclick="this.parentElement.remove()" 
@@ -134,9 +134,9 @@ const CalendarShare = {
 
 			$li.html(`
 			    <strong style="min-width:80px;">${user.name}</strong>
-			    <label><input type="checkbox" class="user-read" checked value="read"/> 읽기</label>
-			    <label><input type="checkbox" class="user-write" value="write"/> 작성</label>
-			    <label><input type="checkbox" class="user-modify" value="modify"/> 수정</label>
+			    <label><input type="checkbox" class="user-read" checked value="Y"/> 읽기</label>
+			    <label><input type="checkbox" class="user-write" value="Y"/> 작성</label>
+			    <label><input type="checkbox" class="user-modify" value="Y"/> 수정</label>
 
 			    <button type="button" 
 			            onclick="this.parentElement.remove()" 

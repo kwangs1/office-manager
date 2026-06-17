@@ -50,7 +50,7 @@
 	
 	<insert id="register" parameterType="com.workflow.office.calendar.domain.CalendarMaster" useGeneratedKeys="true" keyProperty="calMasterId">
 		INSERT INTO TB_CALENDAR_MASTER(
-			cal_name, cal_type,	owner_id, dept_id, use_yn, del_yn, reg_id,	
+			cal_name, cal_type,	owner_id, dept_id, use_yn, del_yn, reg_id
 		) VALUES (
 			#{calName},	#{calType},	#{ownerId},	#{deptId}, #{useYn}, #{delYn}, #{regId}
 		)
