@@ -17,11 +17,7 @@
 /* 공유자 관련 */
 .btn-share-add { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 10px; cursor: pointer; width: fit-content; margin-bottom: 5px; }
 .share-box { border: 1px solid #ddd; padding: 10px; height: 100px; overflow-y: auto; border-radius: 6px; background: #fdfdfd; }
-
-/* 하단 버튼 */
-.modal-footer-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
-.btn-save { background: #2ECC71; color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; }
-.btn-cancel { background: #E0E0E0; color: #333; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; }
+#dynamicShareList {padding: 0; margin: 0;}
 
 /* 일정 등록 버튼 */
 .modal-content button[onclick="saveEvent()"] {
@@ -148,23 +144,26 @@
   margin-left: 2px;
 }
 
-.btn-group {
-  display: flex;
-  gap: 6px;
+/* 하단 버튼 */
+.modal-footer-btns button {
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s;
 }
-.btn-group button {
-  flex: 1;
-  border: none;
-  padding: 8px 0;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 13px;
-  transition: background 0.2s;
-}
+
+/* 색상별 정의 */
+.btn-edit { background: #3b82f6; color: white; }
+.btn-edit:hover { background: #2563eb; }
+
 .btn-del { background: #fee2e2; color: #ef4444; }
 .btn-del:hover { background: #fca5a5; }
-.btn-edit { background: #3b82f6; color: #fff; }
-.btn-edit:hover { background: #2563eb; }
-.btn-close { background: #f1f5f9; color: #64748b; }
-.btn-close:hover { background: #cbd5e1; }
+
+.btn-cancel { background: #e0e0e0; color: #333; }
+.btn-cancel:hover { background: #d5d5d5; }
+
+.btn-save { background: #2ECC71; color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; }
+.btn-cancel { background: #E0E0E0; color: #333; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; }

@@ -14,7 +14,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script th:src="@{/js/common/api.js}"></script>
 <script th:src="@{/js/common/org/dept-tree.js(v=${#dates.createNow().getTime()})}"></script>
-<script th:src="@{/js/common/modalEvent.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/common/modal/ModalUI.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/common/modal/ModalResets.js(v=${#dates.createNow().getTime()})}"></script>
 <script>
 $(function(){
 	getPositionList();
@@ -70,7 +71,7 @@ async function fnSignUp(){
             <div class="form-row">
                 <input type="text" id="deptName" th:placeholder="#{label.dept.selected}" readonly />
                 <input type="hidden" id="deptId" />
-                <button type="button" class="btn-sub" onclick="openSignUpDeptModal()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button type="button" class="btn-sub" onclick="ModalManager.SignUpDeptModal('deptTreeModal')"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
         </div>
 
@@ -90,6 +91,6 @@ async function fnSignUp(){
         
         <button type="button" class="btn-main" onclick="fnSignUp()" th:text="#{signup.btn}"></button>
     </div>
-    <div th:replace="~{modal/deptTreeModal :: deptTreeModal}"></div>
+    <div th:replace="~{modals/deptTreeModal :: deptTreeModal}"></div>
 </body>
 </html>

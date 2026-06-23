@@ -30,7 +30,7 @@ public class CalendarApiController {
 	@GetMapping("/list")
 	public ResponseEntity<ApiResult<List<CalendarDTO.Response>>> list() {
 		List<CalendarDTO.Response> responseDto = calendarService.list();
-
+		
 		String msg = messageSource.getMessage("common.success", null, Locale.KOREA);
 		return ResponseEntity.ok(ApiResult.success(msg, responseDto));
 	}

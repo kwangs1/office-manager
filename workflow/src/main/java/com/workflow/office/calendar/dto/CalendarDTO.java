@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class CalendarDTO {
-
+	
 	@Getter
 	@NoArgsConstructor
 	public static class MasterCreateRequest{
@@ -63,13 +63,15 @@ public class CalendarDTO {
 		private Integer calMasterId;
 		private String targetType;
 		private Integer targetId;
+		private String targetName;
 		private Integer permLevel;
 		private Integer regId;
 		
-		public ShareResponse(CalendarShare share) {
+		public ShareResponse(CalendarShare share, String targetName) {
 			this.calMasterId = share.getCalMasterId();
 			this.targetType = share.getTargetType();
 			this.targetId = share.getTargetId();
+			this.targetName = targetName;
 			this.permLevel = share.getPermLevel();
 			this.regId = share.getRegId();
 		}

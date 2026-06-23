@@ -1,5 +1,5 @@
 <div class='modal' id='MasterModal' th:fragment="masterSaveModal" >
-    <div class='modal-overlay' onclick="closeMasterSaveModal()"></div>
+    <div class='modal-overlay' onclick="ModalManager.close('MasterModal')"></div>
     <div class='modal-wrapper'>
         <div class='modal-content'>
             <h3>새 캘린더 추가</h3>
@@ -17,7 +17,7 @@
 
             <div class="input-group">
                 <label>공유자 설정</label>
-                <button type="button" class="btn-share-add" onclick="shareSelector()">+ 공유자 추가</button>
+                <button type="button" class="btn-share-add" onclick="ModalManager.shareSelector()">+ 공유자 추가</button>
                 <div id="shareUserContainer" class="share-box">
                     <span id="noShareMsg">선택된 공유자가 없습니다.</span>
                     <ul id="dynamicShareList"></ul>
@@ -25,8 +25,8 @@
             </div>
             
             <div class="modal-footer-btns">
-                <button type="button" onclick="saveCalendarMaster()" class="btn-save">저장</button>
-                <button type="button" onclick="closeMasterSaveModal()" class="btn-cancel">취소</button>
+                <button type="button" onclick="CalendarService.save()" class="btn-save">저장</button>
+                <button type="button" onclick="ModalManager.close('MasterModal')" class="btn-cancel">취소</button>
             </div>
         </div>
     </div>

@@ -1,0 +1,33 @@
+<div class='modal' id='MasterInfoModal' th:fragment="masterInfoMoal">
+    <div class="modal-overlay" onclick="ModalManager.close('MasterInfoModal')"></div>
+    <div class="modal-wrapper" style="width: 500px;"> <h3 style="margin-top: 0;">캘린더 상세 정보</h3>
+        
+        <div class="info-group">
+            <label>제목</label>
+            <input type="text" id="info-calName" readonly>
+        </div>
+        
+        <div style="display: flex; gap: 20px;">
+            <div class="input-group" style="flex: 1;">
+                <label>등록자</label>
+                <input type="text" id="info-ownerName" readonly>
+            </div>
+            <div class="input-group" style="flex: 1;">
+                <label>달력 타입</label>
+                <input type="text" id="info-calType" readonly>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>공유자 목록</label>
+            <div class="share-box" id="info-shareList">
+                </div>
+        </div>
+
+        <div class="modal-footer-btns">
+            <button type="button" class="btn-edit" onclick="editCalendar()">수정</button>
+            <button type="button" class="btn-del" onclick="deleteCalendar()">삭제</button>
+            <button type="button" class="btn-cancel" onclick="ModalManager.close('MasterInfoModal')">닫기</button>
+        </div>
+    </div>
+</div>

@@ -16,4 +16,6 @@ public interface DeptService {
 	DepartmentDTO.Response update(Integer id, DepartmentDTO.UpdateRequest updateDto);
 	
 	DepartmentDTO.Response delete(Integer id);
+
+	String getDeptName(Integer targetId);
 }

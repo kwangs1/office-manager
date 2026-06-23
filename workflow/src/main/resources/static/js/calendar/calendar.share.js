@@ -103,9 +103,9 @@ const CalendarShare = {
 						        }
 						     })
 							 .attr('data-id', dept.id)
-							 .attr('data-type', 'dept');
+							 .attr('data-type', 'DEPT');
 				$deptLi.html(`
-				     <strong style="min-width:80px;">${dept.name}</strong>
+				     <strong style="min-width:50px;">${dept.name}</strong>
 				     <label><input type="checkbox" class="dept-read" checked value="Y"/> 읽기</label>
 				     <label><input type="checkbox" class="dept-write" value="Y"/> 작성</label>
 				     <label><input type="checkbox" class="dept-modify" value="Y"/> 수정</label>
@@ -130,10 +130,10 @@ const CalendarShare = {
 			            }
 			        })
 					.attr('data-id', user.id)
-					.attr('data-type', 'user');
+					.attr('data-type', 'USER');
 
 			$li.html(`
-			    <strong style="min-width:80px;">${user.name}</strong>
+			    <strong style="min-width:50px;">${user.name}</strong>
 			    <label><input type="checkbox" class="user-read" checked value="Y"/> 읽기</label>
 			    <label><input type="checkbox" class="user-write" value="Y"/> 작성</label>
 			    <label><input type="checkbox" class="user-modify" value="Y"/> 수정</label>
@@ -149,7 +149,7 @@ const CalendarShare = {
 
 			$container.append($li);
 		});
-		closeDeptModal();		
+		ModalManager.close('deptTreeModal');
 	}
 	
 };

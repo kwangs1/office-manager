@@ -16,7 +16,6 @@ public class CalendarShare {
     public static final int WRITE  = 2; // 010
     public static final int MODIFY = 4; // 100
     
-	private Integer calShareId;
 	private Integer calMasterId;
 	private String targetType;
 	private Integer targetId;

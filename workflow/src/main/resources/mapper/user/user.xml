@@ -106,5 +106,9 @@
 	<update id="updatePassword">
 		UPDATE tb_user set password = #{password} where emp_no = #{empNo}
 	</update>
+	
+	<select id="getUserName" parameterType="Int" resultType="com.workflow.office.user.domain.User">
+		SELECT NAME FROM tb_user where id = #{id}
+	</select>
 </mapper>
 

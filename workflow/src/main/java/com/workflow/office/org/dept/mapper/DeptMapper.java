@@ -20,4 +20,6 @@ public interface DeptMapper {
 	void update(Department vo);
 	
 	int delete(Department vo);
+	
+	String getDeptName(Integer targetId);
 }

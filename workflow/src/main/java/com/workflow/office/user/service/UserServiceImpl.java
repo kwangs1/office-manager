@@ -102,4 +102,14 @@ public class UserServiceImpl implements UserService{
 		
 		return tempPassword;
 	}
+	
+	@Override
+	public String getUserName(Integer targetId) {
+		User user = userMapper.getUserName(targetId);
+		if (user == null) {
+			throw new DataNotFoundException("user.not.found");
+		}
+		
+		return user.getName();
+	}
 }

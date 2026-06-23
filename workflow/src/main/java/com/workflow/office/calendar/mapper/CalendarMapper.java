@@ -11,6 +11,8 @@ import com.workflow.office.calendar.domain.CalendarShare;
 public interface CalendarMapper {
 
 	List<CalendarMaster> list();
+
+	List<CalendarShare> findShareListByMasterIds(List<Integer> masterIds);
 	
 	CalendarMaster info(Integer calendarId);
 	

@@ -2,6 +2,7 @@ var calendar = "";
 var tooltipEl = document.getElementById("calendarTooltip");
 
 document.addEventListener('DOMContentLoaded', function() {
+	CalendarService.initList(); // 달력 List 불러오는 함수.
 	initSelectOptions();
 	var calendarOptions = {
 		initialDate: new Date(),

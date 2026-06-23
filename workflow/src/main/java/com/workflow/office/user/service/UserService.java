@@ -18,4 +18,6 @@ public interface UserService {
 	UserDTO.Response updateProfile(String empNo, UserDTO.CreateRequest dto);
 	
 	String resetPassword(String empNo);
+
+	String getUserName(Integer targetId);
 }

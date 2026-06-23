@@ -25,4 +25,6 @@ public interface UserMapper {
 	void updateProfile(User currentUser);
 	
 	void updatePassword(User user);
+	
+	User getUserName(Integer targetId);
 }

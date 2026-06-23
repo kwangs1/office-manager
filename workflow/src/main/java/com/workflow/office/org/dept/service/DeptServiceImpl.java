@@ -154,4 +154,14 @@ public class DeptServiceImpl implements DeptService{
 		
         return new DepartmentDTO.Response(dept);
 	}
+	
+	@Override
+	public String getDeptName(Integer targetId) {
+		Department dept = deptMapper.findById(targetId);
+		if (dept == null) {
+			throw new DataNotFoundException("dept.not.found");
+		}
+		
+		return dept.getName();
+	}
 }

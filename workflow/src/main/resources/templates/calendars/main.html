@@ -17,44 +17,29 @@
 <script th:src="@{/js/common/org/dept-tree.js(v=${#dates.createNow().getTime()})}"></script>
 <script th:src="@{/js/common/api.js}"></script>
 <script th:src="@{/js/common/dateUtil.js(v=${#dates.createNow().getTime()})}"></script>
-<script th:src="@{/js/common/modalEvent.js(v=${#dates.createNow().getTime()})}"></script>
-<script th:src="@{/js/calendar/calendarShare.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/common/modal/ModalUI.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/common/modal/ModalResets.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/calendar/calendar.share.js(v=${#dates.createNow().getTime()})}"></script>
 <script th:src="@{/js/calendar/calendar.api.js(v=${#dates.createNow().getTime()})}"></script>
 <script th:src="@{/js/calendar/calendar.event.js(v=${#dates.createNow().getTime()})}"></script>
 <script th:src="@{/js/calendar/calendar.service.js(v=${#dates.createNow().getTime()})}"></script>
+<script th:src="@{/js/calendar/calendar.render.js(v=${#dates.createNow().getTime()})}"></script>
 </head>
 <body>
 	<div class="calendar-container">
 
 		<div class="calendar-sidebar">
-			<button type="button" class="btn-add-type" onclick="openMasterSaveModal()">
+			<button type="button" class="btn-add-type" onclick="ModalManager.open('MasterModal')">
 				+ 새 달력 추가
 			</button>
 
-			<div class="type-list-section">
-				<h3>내 캘린더 목록</h3>
-				<ul class="type-list">
-					<th:block th:if="${not #lists.isEmpty(typeList)}">
-						<li th:each="type : ${typeList}"><label> <input
-								type="checkbox" name="calendarType" th:value="${type.typeCode}"
-								checked> <span class="color-badge"
-								th:style="'background-color: ' + ${type.color}"></span> <span
-								th:text="${type.typeName}">타입명</span>
-						</label></li>
-					</th:block>
-					<th:block th:unless="${not #lists.isEmpty(typeList)}">
-						<li><label> <input type="checkbox"
-								name="calendarType" value="1" checked> <span
-								class="color-badge" style="background-color: #3b82f6;"></span>
-								전사 일정
-						</label></li>
-						<li><label> <input type="checkbox"
-								name="calendarType" value="2" checked> <span
-								class="color-badge" style="background-color: #2ecc71;"></span>
-								개인 일정
-						</label></li>
-					</th:block>
-				</ul>
+			<div class="master-list-section">
+				<h4>부서 캘린더 목록</h4>
+				<ul class="master-dept-list"></ul>
+				<h4>나의 캘린더 목록</h4>
+				<ul class="master-list"></ul>
+				<h4>공유 캘린더 목록</h4>
+				<ul class="share-list"></ul>
 			</div>
 
 			<form th:action="@{/api/sign-out}" method="POST" class="logout-section">
@@ -75,10 +60,11 @@
 
 	<div id="calendarTooltip" class="fc-tooltip"></div>
 
-	<div th:replace="~{modal/eventSaveModal :: eventSaveModal}"></div>
-	<div th:replace="~{modal/eventDetailModal :: eventDetailModal}"></div>
-	<div th:replace="~{modal/masterSaveModal :: masterSaveModal}"></div>
-	<div th:replace="~{modal/deptTreeModal :: deptTreeModal}"></div>
+	<div th:replace="~{modals/calendars/eventSaveModal :: eventSaveModal}"></div>
+	<div th:replace="~{modals/calendars/eventDetailModal :: eventDetailModal}"></div>
+	<div th:replace="~{modals/calendars/masterSaveModal :: masterSaveModal}"></div>
+	<div th:replace="~{modals/deptTreeModal :: deptTreeModal}"></div>
+	<div th:replace="~{modals/calendars/masterInfoMoal :: masterInfoMoal}"></div>
 
 <script th:inline="javascript">
 $(document).on('click', '.user-chk', function() {

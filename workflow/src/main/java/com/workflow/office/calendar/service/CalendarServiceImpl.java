@@ -2,6 +2,8 @@ package com.workflow.office.calendar.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +13,8 @@ import com.workflow.office.calendar.domain.CalendarShare;
 import com.workflow.office.calendar.dto.CalendarDTO;
 import com.workflow.office.calendar.mapper.CalendarMapper;
 import com.workflow.office.global.response.dto.DataNotFoundException;
+import com.workflow.office.org.dept.service.DeptService;
+import com.workflow.office.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,14 +23,31 @@ import lombok.RequiredArgsConstructor;
 public class CalendarServiceImpl implements CalendarService{
 
 	private final CalendarMapper calendarMapper;
+	private final UserService userService;
+	private final DeptService deptService;
 
 	@Override
 	public List<CalendarDTO.Response> list() {
 		List<CalendarMaster> calList = calendarMapper.list();
+		if (calList == null || calList.isEmpty()) return new ArrayList<>();
 		
-		if (calList == null) return new ArrayList<>();
+		List<Integer> masterIds = calList.stream().map(CalendarMaster::getCalMasterId).toList();
+		List<CalendarShare> allShares = calendarMapper.findShareListByMasterIds(masterIds);
+		
+		Map<Integer, List<CalendarDTO.ShareResponse>> shareMap = allShares.stream()
+				.map(share -> {
+					String name = "USER".equals(share.getTargetType())
+								? userService.getUserName(share.getTargetId())
+								: deptService.getDeptName(share.getTargetId());
+					return new CalendarDTO.ShareResponse(share, name);
+				})
+				.collect(Collectors.groupingBy(CalendarDTO.ShareResponse::getCalMasterId));
+		
 		return calList.stream()
-				.map(CalendarDTO.Response::new)
+				.map(master -> new CalendarDTO.Response (
+						master,
+						shareMap.getOrDefault(master.getCalMasterId(), new ArrayList<>())
+				))
 				.toList();
 	}
 
@@ -41,7 +62,12 @@ public class CalendarServiceImpl implements CalendarService{
 		}
 		List<CalendarShare> shareList = calendarMapper.findShareMasterId(calendarId);
 		List<CalendarDTO.ShareResponse> shareResponseList = shareList.stream()
-				.map(CalendarDTO.ShareResponse::new)
+				.map(share -> {
+					String name = "USER".equals(share.getTargetType())
+								? userService.getUserName(share.getTargetId())
+								: deptService.getDeptName(share.getTargetId());
+					return new CalendarDTO.ShareResponse(share, name);
+				})
 				.toList();
 		return new CalendarDTO.Response(info,shareResponseList);
 	}
