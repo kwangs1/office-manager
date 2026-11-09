@@ -17,7 +17,7 @@
 /* 공유자 관련 */
 .btn-share-add { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 10px; cursor: pointer; width: fit-content; margin-bottom: 5px; }
 .share-box { border: 1px solid #ddd; padding: 10px; height: 100px; overflow-y: auto; border-radius: 6px; background: #fdfdfd; }
-#dynamicShareList {padding: 0; margin: 0;}
+#dynamicShareList, #infoShareList {padding: 0; margin: 0;}
 
 /* 일정 등록 버튼 */
 .modal-content button[onclick="saveEvent()"] {
@@ -167,3 +167,8 @@
 
 .btn-save { background: #2ECC71; color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; }
 .btn-cancel { background: #E0E0E0; color: #333; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; }
+
+/* 달력 상세보기 공유자 권한 박스*/
+.p-read { background: #e3f2fd; color: #1976d2; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 4px; }
+.p-write { background: #e8f5e9; color: #388e3c; padding: 2px 6px; border-radius: 4px; font-size: 12px; margin-right: 4px; }
+.p-modify { background: #fff3e0; color: #f57c00; padding: 2px 6px; border-radius: 4px; font-size: 12px; }

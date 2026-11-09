@@ -105,6 +105,7 @@ public class CalendarDTO {
 		private String calName;
 		private String calType;
 		private Integer ownerId;
+		private String ownerName;
 		private Integer deptId;
 		private String useYn;
 		private String delYn;
@@ -131,6 +132,10 @@ public class CalendarDTO {
 			this.modId = master.getModId();
 			this.modDt = master.getModDt();
 			this.shareList = shareList;
+		}
+		
+		public void setOwnerName(String ownerName) {
+			this.ownerName = ownerName;
 		}
 	}
 

@@ -63,10 +63,14 @@
 	<div th:replace="~{modals/calendars/eventSaveModal :: eventSaveModal}"></div>
 	<div th:replace="~{modals/calendars/eventDetailModal :: eventDetailModal}"></div>
 	<div th:replace="~{modals/calendars/masterSaveModal :: masterSaveModal}"></div>
-	<div th:replace="~{modals/deptTreeModal :: deptTreeModal}"></div>
 	<div th:replace="~{modals/calendars/masterInfoMoal :: masterInfoMoal}"></div>
+	<div th:replace="~{modals/deptTreeModal :: deptTreeModal}"></div>
 
 <script th:inline="javascript">
+/*<![CDATA[*/
+var loginUserId = /*[[${session.loginUserId}]]*/ 'default';
+var logindeptId = /*[[${session.loginDeptId}]]*/ 'default';
+/*]]>*/
 $(document).on('click', '.user-chk', function() {
     CalendarShare.toggleUser(
         $(this).attr('data-id'), 
@@ -84,11 +88,6 @@ $(document).on('click', '#checkAllUsers', function() {
         CalendarShare.toggleUser($(this).attr('data-id'), $(this).attr('data-nm'), isChecked);
     });
 });
-
-/*<![CDATA[*/
-var loginUserId = /*[[${session.loginUserId}]]*/ 'default';
-var logindeptId = /*[[${session.loginDeptId}]]*/ 'default';
-/*]]>*/
 </script>
 </body>
 </html>

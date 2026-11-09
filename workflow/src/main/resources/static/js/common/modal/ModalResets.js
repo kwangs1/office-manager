@@ -24,5 +24,20 @@ const ModalResets = {
 
 		CalendarShare.selectedUsers = [];
 		CalendarShare.selectedDepts = [];
-    }
+    },
+	
+	MasterInfoModal: () => {
+		const infoShareList = document.getElementById('infoShareList');
+		if (infoShareList) infoShareList.innerHTML = '';
+		
+		const dynamicList = document.getElementById('dynamicShareList');
+		if (dynamicList) dynamicList.innerHTML = '';
+
+		const noMsg = document.getElementById('noShareMsg');
+		if (noMsg) noMsg.style.display = 'inline';
+		
+		CalendarShare.isEditMode = false;
+		CalendarShare.selectedUsers = [];
+		CalendarShare.selectedDepts = [];
+	}
 };

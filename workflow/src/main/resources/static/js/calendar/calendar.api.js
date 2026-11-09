@@ -9,5 +9,9 @@ const CalendarAPI = {
 	
 	info: async (id) => {
 		return await callApi(`/api/calendars/${id}`,"GET");
+	},
+	
+	update: async (id, data) => {
+		return await callApi(`/api/calendars/${id}`, "PATCH", data);
 	}
 }

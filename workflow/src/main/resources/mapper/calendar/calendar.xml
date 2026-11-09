@@ -18,6 +18,7 @@
 			mod_dt AS modDt
 		FROM TB_CALENDAR_MASTER
 		WHERE del_yn = 'N'
+		ORDER BY cal_master_id
 	</select>
 	
 	<select id="findShareListByMasterIds" resultType="com.workflow.office.calendar.domain.CalendarShare">
@@ -90,7 +91,7 @@
 			reg_id AS regId,
 			reg_dt AS regDt,
 			mod_id AS modId,
-			mpd_dt AS modDt,
+			mod_dt AS modDt
 		FROM TB_CALENDAR_MASTER
 		WHERE cal_master_id = #{calMasterId}
 	</select>

@@ -60,6 +60,12 @@ public class CalendarServiceImpl implements CalendarService{
 		if (info == null) {
 			throw new DataNotFoundException("calendar.not.found");
 		}
+		String ownerNm = null;
+		if ("DEPT".equals(info.getCalType())) {
+			ownerNm = deptService.getDeptName(info.getDeptId());
+		} else if ("PERSONAL".equals(info.getCalType())) {
+			ownerNm = userService.getUserName(info.getOwnerId());
+		}
 		List<CalendarShare> shareList = calendarMapper.findShareMasterId(calendarId);
 		List<CalendarDTO.ShareResponse> shareResponseList = shareList.stream()
 				.map(share -> {
@@ -69,7 +75,9 @@ public class CalendarServiceImpl implements CalendarService{
 					return new CalendarDTO.ShareResponse(share, name);
 				})
 				.toList();
-		return new CalendarDTO.Response(info,shareResponseList);
+		CalendarDTO.Response response = new CalendarDTO.Response(info,shareResponseList);
+		response.setOwnerName(ownerNm);
+		return response;
 	}
 
 	@Override

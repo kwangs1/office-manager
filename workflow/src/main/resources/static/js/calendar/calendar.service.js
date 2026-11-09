@@ -6,11 +6,11 @@ const CalendarService = {
 			return;
 		}
 
-		const data = this.collectCalendarData();
+		const data = this.collectCalendarData('write');
 		const result = await CalendarAPI.save(data);
 
 		if (result) {
-			closeMasterSaveModal();
+			ModalManager.close('MasterModal');
 			alert("캘린더가 등록되었습니다.");
 			this.initList();
 		}		
@@ -21,13 +21,13 @@ const CalendarService = {
 			targetId: parseInt(row.getAttribute('data-id')),
 			targetType: row.getAttribute('data-type'),
 			read_auth: row.querySelector(`.${prefix}-read`)?.checked ? 'Y' : '',
-			write_auth: row.querySelector(`.${prefix}-write`).checked ? 'Y' : '',
-			modify_auth: row.querySelector(`.${prefix}-modify`).checked ? 'Y' : ''		
+			write_auth: row.querySelector(`.${prefix}-write`)?.checked ? 'Y' : '',
+			modify_auth: row.querySelector(`.${prefix}-modify`)?.checked ? 'Y' : ''		
 		}		
 	},
 	
-	collectCalendarData: function() {
-		const calNameInput = document.getElementById('calName');
+	collectCalendarData: function(type, jsonData={}) {
+		const calNameInput = type === 'write' ?document.getElementById('calName') : document.getElementById('info-calName');
 		const calType = document.querySelector('input[name="calType"]:checked')?.value;
 		let finalOwnerId = null;
 		let finalDeptId = null;
@@ -47,15 +47,27 @@ const CalendarService = {
 		document.querySelectorAll('.share-dept-item').forEach(row => {
 		    shareList.push(this.getAuthData(row, 'dept'));
 		},this);
-
-		return {
+		
+		const commonData = {
 			calName: calNameInput.value.trim(),
 			calType: calType,
-			ownerId: finalOwnerId,
-			deptId: finalDeptId,
-			regId: loginUserId,
 			shareList: shareList
-		}		
+		}
+		if(type === 'write'){
+			return {
+				...commonData,
+				ownerId: finalOwnerId,
+				deptId: finalDeptId,
+				regId: loginUserId
+			};			
+		}else{
+			return {
+				...commonData,
+				modId: loginUserId,
+				useYn : jsonData.useYn,
+				delYn : jsonData.delYn
+			};
+		}
 	},
 	
 	initList: async function() {
@@ -82,5 +94,24 @@ const CalendarService = {
 			CalendarRender.MasterRender($('.master-list'),myCals);
 			CalendarRender.MasterRender($('.share-list'),sharedCals);
 		}		
+	},
+	
+	getInfo: async function(id, isEditMode) {
+		const res = await CalendarAPI.info(id);
+		if (res && res.data) {
+			CalendarRender.MasterInfoRender(res.data, isEditMode);
+		}
+		
+	},
+	
+	update: async function(id, jsonData) {
+		const data = this.collectCalendarData('update', jsonData);
+		const result = await CalendarAPI.update(id, data);
+		
+		if(result){
+			this.getInfo(id, false);
+			alert("캘린더가 수정되었습니다.");
+			this.initList();
+		};
 	}
 }

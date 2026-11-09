@@ -25,16 +25,19 @@ const ModalManager = {
 	shareSelector: function() {
 		CalendarShare.init();
 		this.openDeptModal('withUser');
-
-		const alreadySelectedIds = CalendarShare.selectedDepts.map(d => d.id);
-		    
+		
+		const alreadySelectedIds = CalendarShare.selectedDepts.map(d => d.targetId || d.id);
 		DeptTree.init('#jstree_demo_div', 'withUser', (data) => {
 			CalendarShare.handleDeptSelection(data);
 		}, logindeptId, alreadySelectedIds);
 	},
 	
-	open: function(modalId) {
+	open: function(modalId, data = null) {
 		document.getElementById(modalId).classList.add('is-visible');
+		
+		if (modalId === 'MasterInfoModal') {
+			CalendarService.getInfo(data);
+		}
 	},
 	
 	close: function(modalId) {

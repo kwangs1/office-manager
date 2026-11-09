@@ -1,4 +1,5 @@
 const CalendarShare = {
+	isEditMode: false,
     selectedDepts: [],
 	selectedUsers: [],
 	includeSubDepts: false,
@@ -44,8 +45,9 @@ const CalendarShare = {
 	    const res = await callApi(`/api/users/${deptId}`, 'GET');
 	    if (Array.isArray(res.data)) {
 	        res.data.forEach(user => {
-	            const isChecked = this.selectedUsers.find(u => u.id === String(user.id)) ? 'checked' : '';
-	            
+				const isChecked = this.selectedUsers.find(u => 
+				        String(u.id) === String(user.id) || String(u.targetId) === String(user.id)
+				    ) ? 'checked' : '';
 	            const $li = $(`
 	                <li class="user-item">
 	                    <input type="checkbox" class="user-chk" data-nm="${user.name}" data-id="${user.id}" ${isChecked}/>
@@ -88,68 +90,52 @@ const CalendarShare = {
 	},
 	
 	sendSelected: function() {
-		const $container = $('#dynamicShareList');
-		const $noMsg = $('#noShareMsg');
-
-		$container.empty();
-		if ($noMsg.length) $noMsg.hide();
+		const isEdit = this.isEditMode;
+		const $container = isEdit ? $('#infoShareList') : $('#dynamicShareList');
 		
-		this.selectedDepts.forEach(dept => {
-		        const $deptLi = $('<li>', {
-						        class: 'share-dept-item',
-						        css: {
-						            marginBottom: '8px', paddingBottom: '8px', borderBottom: '1px dashed #eee',
-						            display: 'flex', alignItems: 'center', gap: '10px'
-						        }
-						     })
-							 .attr('data-id', dept.id)
-							 .attr('data-type', 'DEPT');
-				$deptLi.html(`
-				     <strong style="min-width:50px;">${dept.name}</strong>
-				     <label><input type="checkbox" class="dept-read" checked value="Y"/> 읽기</label>
-				     <label><input type="checkbox" class="dept-write" value="Y"/> 작성</label>
-				     <label><input type="checkbox" class="dept-modify" value="Y"/> 수정</label>
+		$container.empty();
+		if (!isEdit) {
+			const $noMsg = $('#noShareMsg');
+			$noMsg.toggle(this.selectedDepts.length === 0 && this.selectedUsers.length === 0);
+		}
 
-				     <button type="button" 
-				           onclick="this.parentElement.remove()" 
-				           style="margin-left: auto; padding: 2px 6px; font-size: 11px; line-height: 1; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer; transition: all 0.2s;"
-				           onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444'; this.style.borderColor='#fca5a5'"
-				           onmouseout="this.style.background='#f1f5f9'; this.style.color='#64748b'; this.style.borderColor='#e2e8f0'">
-				       ×
-					  </button>
-				`);				
-		    $container.append($deptLi);
-		});
+		const appendItem = (item, type, name, isEdit) => {
+			const itemId = item.targetId || item.id;
 			
-		this.selectedUsers.forEach(user => {
-			const $li = $('<li>', {
-			            class: 'share-user-item',
-			            css: {
-			                marginBottom: '8px', paddingBottom: '8px', borderBottom: '1px dashed #eee',
-			                display: 'flex', alignItems: 'center', gap: '10px'
-			            }
-			        })
-					.attr('data-id', user.id)
-					.attr('data-type', 'USER');
+			const read = isEdit ? (item.permLevel & 1 ? 'checked' : '') : 'checked';
+			const write = isEdit ? (item.permLevel & 2 ? 'checked' : '') : '';
+			const modify = isEdit ? (item.permLevel & 4 ? 'checked' : '') : '';
+			
+			const $li = $('<li>', { 
+					class: type === 'DEPT' ? 'share-dept-item' : 'share-user-item',
+					css: { marginBottom: '8px', paddingBottom: '8px', borderBottom: '1px dashed #eee', display: 'flex', alignItems: 'center', gap: '10px' }
+				}).attr({ 'data-id': itemId, 'data-type': type });
 
 			$li.html(`
-			    <strong style="min-width:50px;">${user.name}</strong>
-			    <label><input type="checkbox" class="user-read" checked value="Y"/> 읽기</label>
-			    <label><input type="checkbox" class="user-write" value="Y"/> 작성</label>
-			    <label><input type="checkbox" class="user-modify" value="Y"/> 수정</label>
-
-			    <button type="button" 
-			            onclick="this.parentElement.remove()" 
-			            style="margin-left: auto; padding: 2px 6px; font-size: 11px; line-height: 1; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer; transition: all 0.2s;"
-			            onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444'; this.style.borderColor='#fca5a5'"
-			            onmouseout="this.style.background='#f1f5f9'; this.style.color='#64748b'; this.style.borderColor='#e2e8f0'">
-			        ×
-			    </button>
+					<strong style="min-width:50px;">${name}</strong>
+					<label><input type="checkbox" class="${type.toLowerCase()}-read" ${read} value="Y"/> 읽기</label>
+					<label><input type="checkbox" class="${type.toLowerCase()}-write" ${write} value="Y"/> 작성</label>
+					<label><input type="checkbox" class="${type.toLowerCase()}-modify" ${modify} value="Y"/> 수정</label>
+					<button type="button" 
+					        onclick="this.parentElement.remove()" 
+					        style="margin-left: auto; padding: 2px 6px; font-size: 11px; line-height: 1; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer; transition: all 0.2s;"
+					        onmouseover="this.style.background='#fee2e2'; this.style.color='#ef4444'; this.style.borderColor='#fca5a5'"
+					        onmouseout="this.style.background='#f1f5f9'; this.style.color='#64748b'; this.style.borderColor='#e2e8f0'">
+					    ×
+					</button>
 			`);
-
 			$container.append($li);
+		};
+
+		this.selectedDepts.forEach(d => {
+		    const name = d.targetName || d.name;
+		    appendItem(d, 'DEPT', name, isEdit);
+		});
+
+		this.selectedUsers.forEach(u => {
+		    const name = u.targetName || u.name;
+		    appendItem(u, 'USER', name, isEdit);
 		});
 		ModalManager.close('deptTreeModal');
 	}
-	
 };
