@@ -88,6 +88,7 @@ public class CalendarServiceImpl implements CalendarService{
 		
 		if (calendarMapper.register(master) <= 0) {
 			throw new IllegalStateException("common.err.server_error");
+			System.out.println("TEST");
 		} 
 		
 		if (requestDto.getShareList() != null && !requestDto.getShareList().isEmpty()) {
